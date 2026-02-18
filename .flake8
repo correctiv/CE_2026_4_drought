@@ -1,0 +1,83 @@
+# --------------------------------------------------------------
+# Flake8 configuration – suitable for Python data‑science projects
+# --------------------------------------------------------------
+
+[flake8]
+# ------------------------------------------------------------------
+# Core behaviour
+# ------------------------------------------------------------------
+# matches Black’s default line length
+max-line-length = 88
+extend-ignore = E203, W503, D100, D101, D102, D103, N806
+    # # Whitespace issues that Black already handles
+    # E203,                     # whitespace before ':'
+    # W503,                     # line break before binary operator
+    # # Common data‑science patterns
+    # D100, D101, D102, D103,   # missing docstrings for modules/classes/functions
+    # N806,                     # variable in function should be lowercase (often used for df, np, etc.)
+
+# ------------------------------------------------------------------
+# Which errors/warnings to enable
+# ------------------------------------------------------------------
+select = C,E,F,W,B,B950,D,N
+#   C – complexity (McCabe)
+#   E – pycodestyle errors
+#   F – pyflakes errors
+#   W – pycodestyle warnings
+#   B – bugbear (B001‑B950)
+#   D – pydocstyle (docstring conventions)
+#   N – pep8‑naming (variable/class naming)
+
+# ------------------------------------------------------------------
+# Exclude generated / non‑source files
+# ------------------------------------------------------------------
+exclude = .git, __pycache__, build, dist, .venv, env, venv, .mypy_cache, .pytest_cache, *.egg-info, .ipynb_checkpoints
+
+# ------------------------------------------------------------------
+# Per‑file ignores – useful for notebooks or test files
+# ------------------------------------------------------------------
+per-file-ignores = *.ipynb: T001, T002, tests/*: D, S101, S603, S607
+    # # Allow prints and exec statements in notebooks
+    # *.ipynb: T001, T002
+    # # Tests often use assert statements and fixtures
+    # tests/*: D, S101, S603, S607
+
+# ------------------------------------------------------------------
+# Complexity thresholds (McCabe)
+# ------------------------------------------------------------------
+# warn when cyclomatic complexity > 10
+max-complexity = 10
+
+# ------------------------------------------------------------------
+# Additional plugin configuration
+# ------------------------------------------------------------------
+
+# flake8-bugbear (B)
+# No extra settings needed – just keep it in the select list.
+
+# flake8-docstrings (D) – enforce Google/Numpy style
+docstring-convention = google
+
+# flake8-import-order – enforce a sensible import order
+import-order-style = google
+application-import-names = src,tests
+# adjust to your top‑level package(s)
+
+# pep8-naming (N) – enforce naming conventions
+# No extra settings needed.
+
+# flake8-builtins – prevent shadowing built‑ins
+# builtins-ignorelist =
+
+# flake8-bandit – security linter (optional)
+# bandit:skip = B101   # example: skip assert‑usage check if you want
+
+# ------------------------------------------------------------------
+# Reporting
+# ------------------------------------------------------------------
+# show summary stats at the end of each run
+statistics = true
+# show total number of errors/warnings
+count = true
+# display offending source line
+show-source = true

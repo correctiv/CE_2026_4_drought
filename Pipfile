@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+ipykernel = "*"
+jupyter = "*"
+flake8 = "*"
+flake8-bugbear = "*"
+flake8-docstrings = "*"
+flake8-import-order = "*"
+pep8-naming = "*"
+flake8-builtins = "*"
+flake8-bandit = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
+python_full_version = "3.11.9"
