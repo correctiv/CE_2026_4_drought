@@ -37,13 +37,14 @@ cropland_type_dict = {
 nodata_val = 65535
 
 basedir = os.path.dirname(os.getcwd())
-in_data_dir = os.path.join(basedir, "data_in")
+raw_data_dir = os.path.join(basedir, "data_raw")
+intermediate_data_dir = os.path.join(basedir, "data_intermediate")
 out_data_dir = os.path.join(basedir, "data_out")
 
 
 def get_dataset_by_name(name):
     name_norm = name.replace(" ", "_")
-    files = sorted(glob.glob(os.path.join(in_data_dir, name_norm, "**" , "*.tif")))
+    files = sorted(glob.glob(os.path.join(raw_data_dir, name_norm, "**" , "*.tif")))
     
     return files
 
