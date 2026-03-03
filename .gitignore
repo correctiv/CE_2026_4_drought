@@ -5,3 +5,6 @@ Pipfile.lock
 .vscode
 
 data_in
+data_intermediate
+
+**/node_modules
