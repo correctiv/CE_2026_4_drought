@@ -56,19 +56,6 @@ for (country in countries) {
     lau$ymin <- sapply(cf, ymin)
     lau$ymax <- sapply(cf, ymax)
 
-    # NOTE: We do this in python instead using rasterio
-    # get row and column values for easier array handling later on:
-    # res_x <- xres(r)
-    # res_y <- yres(r)
-    # global_xmin <- xmin(r)
-    # global_ymax <- ymax(r)
-
-    # Compute column/row indices 
-    # lau$col_start <- sapply(cf, function(x) floor((xmin(x) - global_xmin) / res_x) + 1)
-    # lau$col_end   <- sapply(cf, function(x) ceiling((xmax(x) - global_xmin) / res_x))
-
-    # lau$row_start <- sapply(cf, function(x) floor((global_ymax - ymax(x)) / res_y) + 1)
-    # lau$row_end   <- sapply(cf, function(x) ceiling((global_ymax - ymin(x)) / res_y))
     print(paste("writing to file: ", filename))
     st_write(lau, filename)
     print("done.")
