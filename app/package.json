@@ -1,0 +1,20 @@
+{
+  "name": "housing-prices-map",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@maptiler/geocoding-control": "^2.1.6",
+    "@maptiler/sdk": "^3.11.1",
+    "d3": "^7.9.0",
+    "package.json": "^2.0.1"
+  }
+}
