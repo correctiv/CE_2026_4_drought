@@ -4,7 +4,7 @@ Pipfile.lock
 
 .vscode
 
-data_in
+data_raw
 data_intermediate
 
 **/node_modules
