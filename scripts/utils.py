@@ -2,6 +2,7 @@ import os
 import glob
 import rasterio
 from matplotlib.colors import ListedColormap
+import os.path as path
 
 
 dataset_names = [
@@ -36,10 +37,19 @@ cropland_type_dict = {
 
 nodata_val = 65535
 
-basedir = os.path.dirname(os.getcwd())
-raw_data_dir = os.path.join(basedir, "data_raw")
-intermediate_data_dir = os.path.join(basedir, "data_intermediate")
-out_data_dir = os.path.join(basedir, "data_out")
+basedir = path.dirname(os.getcwd())
+raw_data_dir = path.join(basedir, "data_raw")
+intermediate_data_dir = path.join(basedir, "data_intermediate")
+out_data_dir = path.join(basedir, "data_out")
+
+uk_lau_dir = path.join(raw_data_dir, "LAD_Dec_2021_GB_BFC_2022_4815044792916693521")
+eu_lau_dir = path.join(raw_data_dir, "LAU_RG_01M_2021_4326.shp")
+
+
+lau_dir = path.join(intermediate_data_dir, "eu_uk_laus_joined.shp")
+nuts_dir = path.join(raw_data_dir, "NUTS_RG_01M_2021_4326.shp")
+
+
 
 
 def get_dataset_by_name(name):
