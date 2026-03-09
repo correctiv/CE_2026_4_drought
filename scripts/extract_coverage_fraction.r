@@ -20,7 +20,7 @@ if (compute_LAUs) {
 
 print("loading CDI raster data... ")
 # which cdi file we choose does not matter because we are only interested in the metadata – which is the same across time. So we simply pick the first one.
-cdi_raster_raw <- raster("data_raw/combined_drought_indicator_2012-2025/cdinx_m_edo_20120121_20121221_t/cdinx_m_edo_20120121_t_400_z03.tif")
+cdi_raster_raw <- raster("data_raw/combined_drought_indicator_2012-2025/cdinx_m_edo_20120101_20121221_t/cdinx_m_edo_20120101_t_410_z01.tif")
 
 
 print("loading shapefile... ")
@@ -35,7 +35,7 @@ raster_bbox <- st_as_sfc(st_bbox(cdi_raster_raw)) |> st_set_crs(st_crs(shapefile
 
 countries <- unique(shapefile_raw[[country_identifier]])
 for (country in countries) {
-    filename <- paste0("data_intermediate/", out_name , "_coverage/" , country, ".geojson")
+    filename <- paste0("data_intermediate/", out_name , "_cdi_raster_coverage/" , country, ".geojson")
     if (file.exists(filename)) {
         print("File already exists:")
         print(filename)
