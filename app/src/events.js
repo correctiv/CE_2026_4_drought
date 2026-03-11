@@ -28,7 +28,7 @@ export function button_clicked(field) {
 
 export function select_feature(featureId) {
   map.setFeatureState(
-    { source: "lau", sourceLayer: "lau", id: featureId },
+    { source: "nuts3_stats", sourceLayer: "nuts3_stats", id: featureId },
     { hover: true },
   );
   // Change the cursor style as a UI indicator.
@@ -37,7 +37,7 @@ export function select_feature(featureId) {
 
 export function unselect_feature(featureId) {
   map.setFeatureState(
-    { source: "lau", sourceLayer: "lau", id: featureId },
+    { source: "nuts3_stats", sourceLayer: "nuts3_stats", id: featureId },
     { hover: false },
   );
 }
@@ -49,7 +49,7 @@ export function add_hover_events() {
 
   if (!is_details_panel_sticky()) {
     registered_events.push(
-      map.on("mousemove", "lau", (e) => {
+      map.on("mousemove", "nuts3_stats", (e) => {
         if (mapState.hoveredId != e.features[0].id) {
           unselect_feature(mapState.hoveredId);
           mapState.hoveredId = e.features[0].id;
@@ -60,7 +60,7 @@ export function add_hover_events() {
     );
 
     registered_events.push(
-      map.on("mouseleave", "lau", (e) => {
+      map.on("mouseleave", "nuts3_stats", (e) => {
         if (mapState.hoveredId) {
           unselect_feature(mapState.hoveredId);
           map.getCanvas().style.cursor = "";
@@ -73,8 +73,8 @@ export function add_hover_events() {
 export function pick_feature(e, retry) {
   if (e.feature && retry < 6) {
     setTimeout(() => {
-      var vector_features = map.querySourceFeatures("lau", {
-        sourceLayer: "lau",
+      var vector_features = map.querySourceFeatures("nuts3_stats", {
+        sourceLayer: "nuts3_stats",
       });
       for (const feature of vector_features) {
         if (d3.geoContains(feature, e.feature.center)) {

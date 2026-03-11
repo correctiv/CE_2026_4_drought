@@ -14,26 +14,22 @@ import {
 } from "./events";
 
 // 13 limits
-const legend_color_limits = [
-  0, 30, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360
-];
-
-// 14 colors
+const legend_color_limits = [5, 10, 15, 20, 30, 40, 50, 75, 100, 125, 150, 175, 200, ""];
 const legend_colors = [
-  "#9a1429",
-  "#c0383b",
-  "#da6a57",
-  "#ee9a7c",
-  "#f8c3a9",
-  "#fae1d3",
-  "#deebf2",
-  "#bfdceb",
-  "#98c7df",
-  "#7fb8d7",
-  "#6bacd0",
-  "#3a84bb",
-  "#256aa8",
-//  "#154e89",
+    "#154e89",
+    "#256aa8",
+    "#3a84bb",
+    "#6bacd0",
+    "#7fb8d7",
+    "#98c7df",
+    "#bfdceb",
+    "#deebf2",
+    "#fae1d3",
+    "#f8c3a9",
+    "#ee9a7c",
+    "#da6a57",
+    "#c0383b",
+    "#9a1429",
 ];
 
 //  LEGEND
@@ -114,14 +110,15 @@ function close_chart_panel() {
 
 function generate_popup_html(feature, color_field) {
   var since = color_field.substr(-4);
-
+  console.log(feature)
   return `
 <div id='data-popup'>
     <a id="close-button">×</a>
-    <H2>${feature.properties.lau_name ? feature.properties.lau_name : feature.properties.nuts_name}</H2>
-    ${feature.properties[color_field] > 0 ? "+" + feature.properties[color_field] : feature.properties[color_field]}% since ${since}</BR>
-    ${feature.properties.degurba ? "DEGURBA: " + feature.properties.degurba : ""}
-    <div id="popup_chart"></div>
+    <H2>${feature.properties.nuts_name}</H2>
+    Median drought days per year: ${feature.properties.median_drought_days}<br>
+    Maximum drought days: ${feature.properties.max_drought_days} (${feature.properties.max_drought_days_year})<br>
+    Population: ${feature.properties.population}<br>
+    Cropland area: ${feature.properties.cropland_km2}/${feature.properties.area_km2}km (${feature.properties.cropland_area_percent}%)
 </div>
 `;
 }
