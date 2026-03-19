@@ -3,7 +3,9 @@ import glob
 import rasterio
 from matplotlib.colors import ListedColormap
 import os.path as path
-
+import json
+import geopandas as gpd
+from shapely.geometry import shape
 
 dataset_names = [
     "Crop Types",
@@ -48,6 +50,7 @@ eu_lau_dir = path.join(raw_data_dir, "LAU_RG_01M_2021_4326.shp")
 
 lau_dir = path.join(intermediate_data_dir, "eu_uk_laus_joined.shp")
 nuts_dir = path.join(raw_data_dir, "NUTS_RG_01M_2021_4326.shp")
+country_dir = path.join(raw_data_dir, "CNTR_RG_10M_2024_4326.shp")
 
 
 
@@ -83,3 +86,22 @@ def prep_copernicus_data(data):
     
     data[quality_flag_mask] = 0
     return data
+
+
+def load_complex_geojson(path):
+    # helper function for geojson files that contain list values, which is not natively supported by some geojson drivers.
+    # Resulting object should be equivalent to gpd.read_file("xy.geojson")
+
+    with open(path, "r") as f:
+        data = json.load(f)
+
+    features = data["features"]
+
+    rows = []
+    for f in features:
+        props = f["properties"]
+        geom = shape(f["geometry"])
+        props["geometry"] = geom
+        rows.append(props)
+
+    return gpd.GeoDataFrame(rows, geometry="geometry")
