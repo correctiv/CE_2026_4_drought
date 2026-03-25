@@ -1,5 +1,13 @@
+import * as d3 from "d3";
+
+const DICTIONARY = {};
+
+export function is_mobile() {
+    return (window.innerWidth <= 650);
+}
+
 // Get the browser language
-const supported_languages = ["en", "fr"];
+const supported_languages = ["de"];
 let browser_language = (navigator.language || navigator.userLanguage).substr(
   0,
   2,
@@ -28,3 +36,29 @@ if (window.self !== window.top) {
 }
 
 export const apiKey = "1FVQ7wiLPwXxphATxN6S";
+
+
+
+d3.csv(import.meta.env.BASE_URL + 'translations.csv', function (d) {
+    DICTIONARY[d['key']] = {};
+    for (let k in d) {
+        if (k != 'key') {
+            DICTIONARY[d['key']][k] = d[k];
+        }
+    }
+});
+
+if (is_mobile()) {
+    SETTINGS.center_lat = 50;
+    SETTINGS.center_lon = 10;
+    SETTINGS.zoom = 4.5;
+}
+
+
+export function translate(key) {
+    if (key in DICTIONARY && SETTINGS.language in DICTIONARY[key]) {
+        return DICTIONARY[key][SETTINGS.language];
+    }
+    console.log(`No translations for [${key}] in [${SETTINGS.language}]`);
+    return key;
+}

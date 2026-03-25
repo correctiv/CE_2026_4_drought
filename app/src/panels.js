@@ -4,8 +4,7 @@ import "@maptiler/geocoding-control/style.css";
 import { GeocodingControl } from "@maptiler/geocoding-control/maptilersdk";
 
 import * as d3 from "d3";
-
-import { apiKey, SETTINGS } from "./settings";
+import { apiKey, SETTINGS, translate } from "./settings";
 import { map, mapState } from "./create_map";
 import {
   add_hover_events,
@@ -13,23 +12,36 @@ import {
   pick_feature,
 } from "./events";
 
+
+if (!String.format) {
+  String.format = function(format) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return format.replace(/{(\d+)}/g, function(match, number) { 
+      return typeof args[number] != 'undefined'
+        ? args[number] 
+        : match
+      ;
+    });
+  };
+}
+
 // 13 limits
 const legend_color_limits = [5, 10, 15, 20, 30, 40, 50, 75, 100, 125, 150, 175, 200, ""];
 const legend_colors = [
-    "#154e89",
-    "#256aa8",
-    "#3a84bb",
-    "#6bacd0",
-    "#7fb8d7",
-    "#98c7df",
-    "#bfdceb",
-    "#deebf2",
-    "#fae1d3",
-    "#f8c3a9",
-    "#ee9a7c",
-    "#da6a57",
-    "#c0383b",
-    "#9a1429",
+    "#FFFFFF",
+    "#FFF2F2",
+    "#FFE0CC",
+    "#FFD0AA",
+    "#FFC080",
+    "#FFB366",
+    "#FFA04D",
+    "#FF8A33",
+    "#FF731A",
+    "#FF5C00",
+    "#E04A00",
+    "#C03900",
+    "#A52A00",
+    "#8B0000",
 ];
 
 //  LEGEND
@@ -109,18 +121,14 @@ function close_chart_panel() {
 }
 
 function generate_popup_html(feature, color_field) {
-  var since = color_field.substr(-4);
-  console.log(feature)
-  return `
-<div id='data-popup'>
+  return `<div id='data-popup'>
     <a id="close-button">×</a>
     <H2>${feature.properties.nuts_name}</H2>
-    Median drought days per year: ${feature.properties.median_drought_days}<br>
-    Maximum drought days: ${feature.properties.max_drought_days} (${feature.properties.max_drought_days_year})<br>
-    Population: ${feature.properties.population}<br>
-    Cropland area: ${feature.properties.cropland_km2}/${feature.properties.area_km2}km (${feature.properties.cropland_area_percent}%)
-</div>
-`;
+    ${String.format(translate("details_cropland"), feature.properties.median_drought_days)}<br>
+    ${String.format(translate("details_pop"), feature.properties.population)}<br>  <span class="tight-break"></span>
+    ${String.format(translate("details_median"), feature.properties.median_drought_days)}<br>  <span class="tight-break"></span>
+    ${String.format(translate("details_max"), feature.properties.max_drought_days, feature.properties.max_drought_days_year)}<br>
+</div>`;
 }
 
 function load_popup_data(feature) {

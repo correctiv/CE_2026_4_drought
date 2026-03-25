@@ -1,33 +1,36 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="https://correctiv.org/wp-content/uploads/2018/11/favicon-152.png"
-    />
-    <title>European Population since 1961</title>
-  </head>
 
-  <body>
-    <div id="map"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="https://correctiv.org/wp-content/uploads/2018/11/favicon-152.png" />
+  <title>Drought days in Europe since 2012</title>
+</head>
 
-    <div class="map-overlay" id="map-overlay">
-      <div class="map-overlay-element">
-        <div id="map_legend"></div>
+<body>
+  <div id="map"></div>
+
+  <div class="map-overlay" id="map-overlay">
+    <div class="map-overlay-element map-legend-panel">
+      <div id="color_buttons">
+        <a>Show drought days:</a><br>
+        <button id="button_median_drought">Median</button>
+        <button id="button_max_drought">Max.</button>
       </div>
-
-      <div class="map-info-panel map-overlay-element" id="chart-panel"></div>
-      <div class="map-info-panel map-overlay-element">
-        <fieldset>
-          <div id="color_buttons">
-            <button id="button_2011">2011 - Today</button>
-          </div>
-        </fieldset>
-      </div>
+      <div id="map_legend"></div>
     </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+    <div class="map-info-panel map-overlay-element" id="details-panel">
+      <div class="map-info-panel map-overlay-element" id="chart-panel"></div>
+
+      <!-- <div id="legend"></div> -->
+      <div id="source"></div>
+      <div id="detail_button" class="collapsible-btn"></div>
+      <p class="collapsible-content"></p>
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>

@@ -15,9 +15,14 @@ body {
 .map-overlay {
   position: absolute;
   max-width: 400px;
-  width: 40%;
-  top: 40px;
+  width: 33%;
+  top: 10px;
   padding: 10px;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 5px;
 }
 
 .map-overlay-element {
@@ -25,25 +30,31 @@ body {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 55px;
   width: 100%;
   box-sizing: border-box;
   line-height: 1.5em;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .map-overlay-element fieldset {
   border: none;
   padding: 0;
-  margin: 0 0 200px;
+  margin: 0 0 100px;
 }
 
 .map-overlay-element fieldset:last-child {
-  margin: 0;
+  margin: 10px;
+}
+
+.map-legend-panel {
+  margin-top: 30px;
 }
 
 .map-overlay-element button {
   display: inline-block;
-  width: 90px;
+  width: 70px;
   height: 20px;
   border: none;
   cursor: pointer;
@@ -58,7 +69,8 @@ body {
 }
 
 .map-info-panel {
-  max-height: 320px;
+  margin-top: 8px;
+  max-height: 820px;
   height: 30%;
 }
 
@@ -71,13 +83,57 @@ body {
   font-size: 0.8em;
 }
 
+.tight-break {
+  display: block;
+  height: 0.4em; /* smaller than normal line break */
+}
+
 #close-button {
   display: none;
   float: right;
   right: 5px;
-  top: 5px;
+  /* top: 5px; */
   font-size: 2em;
   cursor: pointer;
+}
+
+.collapsible-btn {
+  cursor: pointer;
+  padding: .5em;
+  text-align: left;
+  outline: none;
+  line-height: .5em;
+}
+
+.collapsible-content {
+  margin: 0em;
+  padding: 0 .3em;
+  max-height: 0;
+  font-size: 13px;
+  line-height: 1.4em;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+  hyphens: manual;
+}
+
+.coll-active,
+.collapsible-btn:hover {
+  background-color: #c0b9b9;
+}
+
+.collapsible-btn:after {
+  content: '\02795';
+  /* Unicode character for "plus" sign (+) */
+  font-size: 10px;
+  color: white;
+  float: right;
+}
+
+.collapsible-btn,
+.coll-active:after {
+  content: "\2796";
+  /* Unicode character for "minus" sign (-) */
 }
 
 /* ------------ Font styles ------------ */
@@ -241,4 +297,44 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 10px;
+    line-height: 11px;
+  }
+
+.collapsible-btn:after {
+  /* Unicode character for "plus" sign (+) */
+  font-size: 16px;
+}
+#close-button {
+  font-size: 2em;
+}
+.collapsible-content {
+  font-size: 6px;
+}
+
+.map-overlay {
+  position: absolute;
+  max-width: 300px;
+  width: 35%;
+  top: 10px;
+  padding: 10px;
+}
+
+
+.map-overlay-element {
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 55px;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1.5em;
+  margin-top: 0;
+  margin-bottom: 0;
+}
 }

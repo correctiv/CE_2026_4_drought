@@ -1,0 +1,14 @@
+key,en,de
+search_placeholder,Search,Suche
+no_data,No data,Keine Daten
+month,month,Monat
+days,days,Tage
+details_title,Brief Methodology,Kurze Methodologie
+details_pop,Population: {0},Bevölkerung: {0}
+details_cropland,Cropland: {0} per cent, Ackerfläche: {0} Prozent
+details_median,"<b>On average</b>, this region experiences <b>{0} days of drought per year</b>.", "Hier herrschen <b>im Schnitt {0} Tage Dürre pro Jahr</b>."
+details_max,"The year <b>{1}</b> had the most, with <b>{0} days of drought</b>.", "Das Jahr <b>{1}</b> hatte mit <b>{0} Dürretagen</b> die meisten."
+details_contents,"<p>We present the average number of drought days from 2012 to 2026 for the European Economic Area and the United Kingdom.</p>
+<p>To do this, we analysed Copernicus data. The EU Earth observation programme calculates local drought indices every ten days. These are derived from data on precipitation, soil moisture and plant growth. The information presented is limited in terms of both spatial coverage and time period.</p>","<p>Wir zeigen den Mittelwert aller Dürretage zwischen 2012 und 2026 für den Europäischen Wirtschaftsraum und Großbritannien.</p> 
+<p>Dafür haben wir Daten von Copernicus analysiert. Das EU-Erdbeobachtungsprogramm berechnet alle zehn Tage lokale Dürrewerte. Diese ergeben sich aus Daten zu Niederschlag, Bodenfeuchte und Pflanzenwachstum. Die Angaben sind räumlich und zeitlich in der Darstellung begrenzt.</p>"
+source,Source,Quelle

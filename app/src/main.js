@@ -4,7 +4,7 @@ import "@maptiler/geocoding-control/style.css";
 
 import "./style.css";
 
-import { SETTINGS, apiKey } from "./settings.js";
+import { SETTINGS, apiKey, translate } from "./settings.js";
 import { map, mapState } from "./create_map.js";
 import {
   add_hover_events,
@@ -28,7 +28,27 @@ map.on("load", () => {
   }
 });
 
+
+
 map.once("load", async () => {
+
+  document.getElementById('source').innerHTML = `${translate('source')}: <a target="_blank" style="color:#ff5064;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a>`;
+  var coll = document.getElementById("detail_button");
+  coll.innerHTML = translate('details_title');
+
+  translate('details_title');
+  coll.nextElementSibling.innerHTML = translate('details_contents');
+
+  coll.addEventListener("click", function () {
+    this.classList.toggle("coll-active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  });
+
   map.addSource("lau_median_drought_days_raster_src", {
     type: "raster",
     tiles: [
@@ -50,7 +70,7 @@ map.once("load", async () => {
   map.addSource("nuts3_stats", {
     type: "vector",
     url:
-      "https://api.maptiler.com/tiles/019cd8b8-ebfc-7ada-8113-e5fd5262ba64/tiles.json?key=" +      
+      "https://api.maptiler.com/tiles/019cd8b8-ebfc-7ada-8113-e5fd5262ba64/tiles.json?key=" +
       apiKey,
   });
 
@@ -68,10 +88,140 @@ map.once("load", async () => {
         "fill-opacity": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          4,
+          1,
           0,
         ],
-        "fill-color": "#ffffff20",
+        "fill-color": [
+          "case",
+
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            5
+          ],
+          "#FFFFFF",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            10
+          ],
+          "#FFF2F2",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            20
+          ],
+          "#FFE0CC",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            40
+          ],
+          "#FFD0AA",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            60
+          ],
+          "#FFC080",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            80
+          ],
+          "#FFB366",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            100
+          ],
+          "#FFA04D",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            120
+          ],
+          "#FF8A33",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            140
+          ],
+          "#FF731A",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            160
+          ],
+          "#FF5C00",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            180
+          ],
+          "#E04A00",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            200
+          ],
+          "#C03900",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            220
+          ],
+          "#A52A00",
+          [
+            "<",
+            [
+              "get",
+              "median_drought_days"
+            ],
+            365
+          ],
+          "#8B0000",
+          "#808080"
+        ],//"#ffffff20",
         "fill-outline-color": [
           "interpolate",
           ["linear"],
@@ -113,9 +263,49 @@ map.once("load", async () => {
     add_hover_events();
   });
 
-  document.getElementById("button_2011").onclick = (e) => {
-    button_clicked("evol_perc_2011");
+  let show_max_drought_days = false;
+
+  document.getElementById("button_max_drought").onclick = (e) => {
+    console.log("here")
+    if (!show_max_drought_days) {
+      show_max_drought_days = true;
+      map.removeLayer("lau_raster")
+      map.addLayer(
+        {
+          id: "lau_raster",
+          //maxzoom: zoom_change,
+          type: "raster",
+          source: "lau_max_drought_days_raster_src",
+        },
+        "nuts3_stats",
+        //"Background",
+      );
+      }
+
+    // button_clicked("button_median_drought");
   };
+
+  document.getElementById("button_median_drought").onclick = (e) => {
+    console.log("here")
+    if (show_max_drought_days) {
+      show_max_drought_days = false;
+      map.removeLayer("lau_raster")
+      map.addLayer(
+        {
+          id: "lau_raster",
+          //maxzoom: zoom_change,
+          type: "raster",
+          source: "lau_median_drought_days_raster_src",
+        },
+        "nuts3_stats",
+        //"Background",
+      );
+      }
+
+    // button_clicked("button_median_drought");
+  };
+
+  //map.getLayer("lau_raster").addSource()
 
   // Add legend
   createLegend();
