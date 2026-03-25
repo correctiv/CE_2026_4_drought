@@ -95,7 +95,7 @@ export function createSearchBar() {
       "municipality",
       "locality",
     ],
-    placeholder: "search_placeholder",
+    placeholder: translate("search_placeholder"),
   });
   map.addControl(gc, "top-left");
 
