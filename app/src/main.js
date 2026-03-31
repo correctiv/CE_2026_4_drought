@@ -12,7 +12,7 @@ import {
   select_feature,
   unselect_feature,
 } from "./events";
-import { createLegend, createSearchBar, fill_chart_panel } from "./panels.js";
+import { createLegend, createLegendMax, createSearchBar, fill_chart_panel } from "./panels.js";
 
 // we change the labels to be in the correct languages
 map.on("load", () => {
@@ -265,44 +265,38 @@ map.once("load", async () => {
 
   let show_max_drought_days = false;
 
-  document.getElementById("button_max_drought").onclick = (e) => {
-    console.log("here")
+  document.getElementById("button_max_drought").onclick = () => {
     if (!show_max_drought_days) {
       show_max_drought_days = true;
       map.removeLayer("lau_raster")
       map.addLayer(
         {
           id: "lau_raster",
-          //maxzoom: zoom_change,
           type: "raster",
           source: "lau_max_drought_days_raster_src",
         },
         "nuts3_stats",
-        //"Background",
       );
-      }
-
-    // button_clicked("button_median_drought");
+      document.getElementById("map_legend").innerHTML = "";
+      createLegendMax();
+    }
   };
 
-  document.getElementById("button_median_drought").onclick = (e) => {
-    console.log("here")
+  document.getElementById("button_median_drought").onclick = () => {
     if (show_max_drought_days) {
       show_max_drought_days = false;
       map.removeLayer("lau_raster")
       map.addLayer(
         {
           id: "lau_raster",
-          //maxzoom: zoom_change,
           type: "raster",
           source: "lau_median_drought_days_raster_src",
         },
         "nuts3_stats",
-        //"Background",
       );
-      }
-
-    // button_clicked("button_median_drought");
+      document.getElementById("map_legend").innerHTML = "";
+      createLegend();
+    }
   };
 
   //map.getLayer("lau_raster").addSource()

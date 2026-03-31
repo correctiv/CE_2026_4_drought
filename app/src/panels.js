@@ -25,23 +25,19 @@ if (!String.format) {
   };
 }
 
-// 13 limits
-const legend_color_limits = [5, 10, 15, 20, 30, 40, 50, 75, 100, 125, 150, 175, 200, ""];
+// 9 limits
+const legend_color_limits = [25, 45, 65, 85, 105, 130, 155, 175, 200, ""];
 const legend_colors = [
     "#FFFFFF",
-    "#FFF2F2",
-    "#FFE0CC",
-    "#FFD0AA",
-    "#FFC080",
-    "#FFB366",
-    "#FFA04D",
-    "#FF8A33",
-    "#FF731A",
-    "#FF5C00",
-    "#E04A00",
-    "#C03900",
-    "#A52A00",
-    "#8B0000",
+    "#FFE3AE",
+    "#FFC655",
+    "#FFAA00",
+    "#FF7100",
+    "#FF3355",
+    "#C70021",
+    "#901F32",
+    "#6C2F39",
+    "#452D31",
 ];
 
 //  LEGEND
@@ -49,7 +45,7 @@ export const createLegend = () => {
   var w = document.getElementById("map-overlay").offsetWidth;
 
   const legend_height = 12;
-  const legend_width = (w - 20) / 14;
+  const legend_width = (w - 20) / 10;
 
   const legend_svg = d3
     .select("#map_legend")
@@ -68,8 +64,74 @@ export const createLegend = () => {
     .attr("fill", (d, i) => legend_colors[i]);
 
   legend_svg
+    .append("rect")
+    .attr("x", 0)
+    .attr("y", 20)
+    .attr("width", legend_width * 10)
+    .attr("height", legend_height)
+    .attr("fill", "none")
+    .attr("stroke", "black")
+    .attr("stroke-width", 0.5);
+
+  legend_svg
     .selectAll("text")
     .data(legend_color_limits)
+    .enter()
+    .append("text")
+    .attr("class", "legend-number")
+    .attr("width", legend_width)
+    .attr("text-anchor", "middle")
+    .attr("x", (d, i) => (i + 1) * legend_width)
+    .attr("y", (d, i) => (i % 2 ? 15 : 48))
+    .text((d, i) => `${(d)}`);
+};
+
+// 4 limits (max drought days)
+const legend_color_limits_max = [100, 175, 250, 300, ""];
+const legend_colors_max = [
+    "#FFFFFF",
+    "#FFE3AE",
+    "#FFAA00",
+    "#FF3355",
+    "#901F32",
+];
+
+export const createLegendMax = () => {
+  var w = document.getElementById("map-overlay").offsetWidth;
+
+  const legend_height = 12;
+  const n = legend_colors_max.length;
+  const legend_width = (w - 20) / n;
+
+  const legend_svg = d3
+    .select("#map_legend")
+    .append("svg")
+    .attr("viewBox", `0 0 ${w - 20} 50`);
+
+  legend_svg
+    .selectAll("rect")
+    .data(legend_colors_max)
+    .enter()
+    .append("rect")
+    .attr("width", legend_width)
+    .attr("height", legend_height)
+    .attr("x", (d, i) => i * legend_width)
+    .attr("y", 20)
+    .attr("fill", (d, i) => legend_colors_max[i]);
+
+  legend_svg
+    .append("rect")
+    .attr("x", 0)
+    .attr("y", 20)
+    .attr("width", legend_width * n)
+    .attr("height", legend_height)
+    .attr("fill", "none")
+    .attr("stroke", "black")
+    .attr("stroke-width", 0.5);
+
+  legend_svg
+    .selectAll("text")
+    .data(legend_color_limits_max)
     .enter()
     .append("text")
     .attr("class", "legend-number")
