@@ -120,14 +120,22 @@ function close_chart_panel() {
   add_hover_events();
 }
 
-function generate_popup_html(feature, color_field) {
+function num_format(num) {
+  if (SETTINGS.language == "de") {
+    return num.toLocaleString("de-DE")
+  } else {
+    return num.toLocaleString("en-US")
+  }
+}
+
+function generate_popup_html(feature) {
   return `<div id='data-popup'>
     <a id="close-button">×</a>
     <H2>${feature.properties.nuts_name}</H2>
-    ${String.format(translate("details_cropland"), feature.properties.median_drought_days)}<br>
-    ${String.format(translate("details_pop"), feature.properties.population)}<br>  <span class="tight-break"></span>
-    ${String.format(translate("details_median"), feature.properties.median_drought_days)}<br>  <span class="tight-break"></span>
-    ${String.format(translate("details_max"), feature.properties.max_drought_days, feature.properties.max_drought_days_year)}<br>
+    ${String.format(translate("details_cropland"), num_format(feature.properties.median_drought_days))}<br>
+    ${String.format(translate("details_pop"), num_format(feature.properties.population))}<br>  <span class="tight-break"></span>
+    ${String.format(translate("details_median"), num_format(feature.properties.median_drought_days))}<br>  <span class="tight-break"></span>
+    ${String.format(translate("details_max"), num_format(feature.properties.max_drought_days), feature.properties.max_drought_days_year)}<br>
 </div>`;
 }
 

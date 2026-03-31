@@ -32,7 +32,7 @@ map.on("load", () => {
 
 map.once("load", async () => {
 
-  document.getElementById('source').innerHTML = `${translate('source')}: <a target="_blank" style="color:#ff5064;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a>`;
+  document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#ff5064; font-style: italic;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a></i>`;
   var coll = document.getElementById("detail_button");
   coll.innerHTML = translate('details_title');
 
