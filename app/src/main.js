@@ -4,6 +4,9 @@ import "@maptiler/geocoding-control/style.css";
 
 import "./style.css";
 
+import median_nuts3_config from '../../data_out/median_drought_days_nuts3_config.json' assert { type: 'json' };
+import max_nuts3_config from '../../data_out/max_drought_days_nuts3_config.json' assert { type: 'json' };
+
 import { SETTINGS, apiKey, translate } from "./settings.js";
 import { map, mapState } from "./create_map.js";
 import {
@@ -12,7 +15,7 @@ import {
   select_feature,
   unselect_feature,
 } from "./events";
-import { createLegend, createLegendMax, createSearchBar, fill_chart_panel } from "./panels.js";
+import { createLegend, createLegendMax, createSearchBar, fill_chart_panel, legend_color_limits, legend_colors } from "./panels.js";
 
 // we change the labels to be in the correct languages
 map.on("load", () => {
@@ -26,11 +29,14 @@ map.on("load", () => {
       `name:${SETTINGS.language}`,
     ]);
   }
+  map.setPaintProperty('Background', 'background-color', '#000000');
+
 });
 
 
 
 map.once("load", async () => {
+
 
   document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#ff5064; font-style: italic;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a></i>`;
   var coll = document.getElementById("detail_button");
@@ -74,169 +80,73 @@ map.once("load", async () => {
       apiKey,
   });
 
-
   // Vector layers, which are not dynamic.
   // Adding the LAU as an transparent vector layer to have the tooltip info on hover.
+  map.addLayer({
+    "id": "nuts3_stats",
+    "type": "fill",
+    "source": "nuts3_stats",
+    "source-layer": "nuts3_stats",
+    "paint": {
+      "fill-opacity": [
+        "case",
+        ["boolean", ["feature-state", "hover"], false],
+        0.25,
+        0,
+      ],
+      "fill-color": [
+        "case",
+        [
+          "<",
+          [
+            "get",
+            "median_drought_days"
+          ],
+          106
+        ],
+        "#FFC655",
+        "#FF3355"
+      ],
+      "fill-outline-color": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        0,
+        "#fefefe00",
+        100,
+        "#fefefe00",
+      ],
+    },
+
+  }, "Background");
+
+  map.setPaintProperty("nuts3_stats", "fill-color", median_nuts3_config)
+
   map.addLayer(
     {
-      id: "nuts3_stats",
+      id: "nuts3_outline",
       //minzoom: zoom_change,
-      type: "fill",
+      "type": "line",
       source: "nuts3_stats",
       "source-layer": "nuts3_stats",
-      paint: {
-        "fill-opacity": [
+      "paint": {
+        "line-color": "#000000",
+        "line-width": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          1,
-          0,
+          2,
+          0
         ],
-        "fill-color": [
+        "line-opacity": [
           "case",
-
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            5
-          ],
-          "#FFFFFF",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            10
-          ],
-          "#FFF2F2",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            20
-          ],
-          "#FFE0CC",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            40
-          ],
-          "#FFD0AA",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            60
-          ],
-          "#FFC080",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            80
-          ],
-          "#FFB366",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            100
-          ],
-          "#FFA04D",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            120
-          ],
-          "#FF8A33",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            140
-          ],
-          "#FF731A",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            160
-          ],
-          "#FF5C00",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            180
-          ],
-          "#E04A00",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            200
-          ],
-          "#C03900",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            220
-          ],
-          "#A52A00",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            365
-          ],
-          "#8B0000",
-          "#808080"
-        ],//"#ffffff20",
-        "fill-outline-color": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          0,
-          "#fefefe00",
-          100,
-          "#fefefe00"
-          // "hsla(0, 0%, 100%, 1.00)",
-        ],
-      },
+          ["boolean", ["feature-state", "hover"], false],
+          0.6,
+          0
+        ]
+      }
     },
     //"lau_raster",
-    "Background",
-  );
+    "Background");
 
   // //Adding the LAUs as a raster image
   map.addLayer(
@@ -277,6 +187,8 @@ map.once("load", async () => {
         },
         "nuts3_stats",
       );
+      map.setPaintProperty("nuts3_stats", "fill-color", max_nuts3_config)
+
       document.getElementById("map_legend").innerHTML = "";
       createLegendMax();
     }
@@ -294,6 +206,9 @@ map.once("load", async () => {
         },
         "nuts3_stats",
       );
+
+      map.setPaintProperty("nuts3_stats", "fill-color", median_nuts3_config)
+
       document.getElementById("map_legend").innerHTML = "";
       createLegend();
     }
