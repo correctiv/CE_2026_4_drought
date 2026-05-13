@@ -26,8 +26,8 @@ if (!String.format) {
 }
 
 // 9 limits
-const legend_color_limits = [25, 45, 65, 85, 105, 130, 155, 175, 200, ""];
-const legend_colors = [
+export const legend_color_limits = [25, 45, 65, 85, 105, 130, 155, 175, 200, ""];
+export const legend_colors = [
     "#FFFFFF",
     "#FFE3AE",
     "#FFC655",
@@ -38,6 +38,17 @@ const legend_colors = [
     "#901F32",
     "#6C2F39",
     "#452D31",
+];
+
+
+// 4 limits (max drought days)
+export const legend_color_limits_max = [100, 175, 250, 300, ""];
+export const legend_colors_max = [
+    "#FFFFFF",
+    "#FFE3AE",
+    "#FFAA00",
+    "#FF3355",
+    "#901F32",
 ];
 
 //  LEGEND
@@ -86,15 +97,6 @@ export const createLegend = () => {
     .text((d) => `${d}`);
 };
 
-// 4 limits (max drought days)
-const legend_color_limits_max = [100, 175, 250, 300, ""];
-const legend_colors_max = [
-    "#FFFFFF",
-    "#FFE3AE",
-    "#FFAA00",
-    "#FF3355",
-    "#901F32",
-];
 
 export const createLegendMax = () => {
   var w = document.getElementById("map-legend-wrapper").offsetWidth;
