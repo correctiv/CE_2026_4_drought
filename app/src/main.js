@@ -4,9 +4,6 @@ import "@maptiler/geocoding-control/style.css";
 
 import "./style.css";
 
-import median_nuts3_config from '../../data_out/median_drought_days_nuts3_config.json' assert { type: 'json' };
-import max_nuts3_config from '../../data_out/max_drought_days_nuts3_config.json' assert { type: 'json' };
-
 import { SETTINGS, apiKey, translate } from "./settings.js";
 import { map, mapState } from "./create_map.js";
 import {
@@ -85,39 +82,17 @@ map.once("load", async () => {
     "source": "nuts3_stats",
     "source-layer": "nuts3_stats",
     "paint": {
+      "fill-color": "#000000",
       "fill-opacity": [
         "case",
         ["boolean", ["feature-state", "hover"], false],
-        0.25,
+        0.2,
         0,
       ],
-      "fill-color": [
-        "case",
-        [
-          "<",
-          [
-            "get",
-            "median_drought_days"
-          ],
-          106
-        ],
-        "#FFC655",
-        "#FF3355"
-      ],
-      "fill-outline-color": [
-        "interpolate",
-        ["linear"],
-        ["zoom"],
-        0,
-        "#fefefe00",
-        100,
-        "#fefefe00",
-      ],
+      "fill-outline-color": "rgba(0,0,0,0)",
     },
 
   }, "Background");
-
-  map.setPaintProperty("nuts3_stats", "fill-color", median_nuts3_config)
 
   map.addLayer(
     {
@@ -131,13 +106,13 @@ map.once("load", async () => {
         "line-width": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          2,
+          1,
           0
         ],
         "line-opacity": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          0.6,
+          0.4,
           0
         ]
       },
@@ -183,8 +158,6 @@ map.once("load", async () => {
         { id: "lau_raster", type: "raster", source: "lau_max_drought_days_raster_src" },
         "nuts3_stats",
       );
-      map.setPaintProperty("nuts3_stats", "fill-color", max_nuts3_config)
-
       document.getElementById("map_legend").innerHTML = "";
       createLegendMax();
       btnMax.classList.add("active");
@@ -200,8 +173,6 @@ map.once("load", async () => {
         { id: "lau_raster", type: "raster", source: "lau_median_drought_days_raster_src" },
         "nuts3_stats",
       );
-
-      map.setPaintProperty("nuts3_stats", "fill-color", median_nuts3_config)
 
       document.getElementById("map_legend").innerHTML = "";
       createLegend();
