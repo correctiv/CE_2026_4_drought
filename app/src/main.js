@@ -8,7 +8,6 @@ import { SETTINGS, apiKey, translate } from "./settings.js";
 import { map, mapState } from "./create_map.js";
 import {
   add_hover_events,
-  button_clicked,
   select_feature,
   unselect_feature,
 } from "./events";
@@ -34,18 +33,16 @@ map.once("load", async () => {
 
   document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#ff5064; font-style: italic;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a></i>`;
   var coll = document.getElementById("detail_button");
+  var collContent = document.querySelector(".collapsible-content");
   coll.innerHTML = translate('details_title');
-
-  translate('details_title');
-  coll.nextElementSibling.innerHTML = translate('details_contents');
+  collContent.innerHTML = translate('details_contents');
 
   coll.addEventListener("click", function () {
     this.classList.toggle("coll-active");
-    var content = this.nextElementSibling;
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
+    if (collContent.style.maxHeight) {
+      collContent.style.maxHeight = null;
     } else {
-      content.style.maxHeight = content.scrollHeight + "px";
+      collContent.style.maxHeight = collContent.scrollHeight + "px";
     }
   });
 
@@ -85,152 +82,18 @@ map.once("load", async () => {
       source: "nuts3_stats",
       "source-layer": "nuts3_stats",
       paint: {
+        "fill-color": "#000000",
         "fill-opacity": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          1,
+          0.2,
           0,
         ],
-        "fill-color": [
-          "case",
-
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            5
-          ],
-          "#FFFFFF",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            10
-          ],
-          "#FFF2F2",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            20
-          ],
-          "#FFE0CC",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            40
-          ],
-          "#FFD0AA",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            60
-          ],
-          "#FFC080",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            80
-          ],
-          "#FFB366",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            100
-          ],
-          "#FFA04D",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            120
-          ],
-          "#FF8A33",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            140
-          ],
-          "#FF731A",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            160
-          ],
-          "#FF5C00",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            180
-          ],
-          "#E04A00",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            200
-          ],
-          "#C03900",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            220
-          ],
-          "#A52A00",
-          [
-            "<",
-            [
-              "get",
-              "median_drought_days"
-            ],
-            365
-          ],
-          "#8B0000",
-          "#808080"
-        ],//"#ffffff20",
         "fill-outline-color": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          0,
-          "#fefefe00",
-          100,
-          "#fefefe00"
-          // "hsla(0, 0%, 100%, 1.00)",
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          "rgba(0,0,0,0.4)",
+          "rgba(0,0,0,0)",
         ],
       },
     },
@@ -265,39 +128,49 @@ map.once("load", async () => {
 
   let show_max_drought_days = false;
 
-  document.getElementById("button_max_drought").onclick = () => {
+  const btnMedian = document.getElementById("button_median_drought");
+  const btnMax = document.getElementById("button_max_drought");
+
+  btnMax.onclick = () => {
     if (!show_max_drought_days) {
       show_max_drought_days = true;
-      map.removeLayer("lau_raster")
+      map.removeLayer("lau_raster");
       map.addLayer(
-        {
-          id: "lau_raster",
-          type: "raster",
-          source: "lau_max_drought_days_raster_src",
-        },
+        { id: "lau_raster", type: "raster", source: "lau_max_drought_days_raster_src" },
         "nuts3_stats",
       );
       document.getElementById("map_legend").innerHTML = "";
       createLegendMax();
+      btnMax.classList.add("active");
+      btnMedian.classList.remove("active");
     }
   };
 
-  document.getElementById("button_median_drought").onclick = () => {
+  btnMedian.onclick = () => {
     if (show_max_drought_days) {
       show_max_drought_days = false;
-      map.removeLayer("lau_raster")
+      map.removeLayer("lau_raster");
       map.addLayer(
-        {
-          id: "lau_raster",
-          type: "raster",
-          source: "lau_median_drought_days_raster_src",
-        },
+        { id: "lau_raster", type: "raster", source: "lau_median_drought_days_raster_src" },
         "nuts3_stats",
       );
       document.getElementById("map_legend").innerHTML = "";
       createLegend();
+      btnMedian.classList.add("active");
+      btnMax.classList.remove("active");
     }
   };
+
+  const positionChartPanelMobile = () => {
+    if (window.innerWidth <= 650) {
+      const legendH = document.getElementById("map-legend-wrapper").offsetHeight;
+      document.getElementById("chart-panel-wrapper").style.bottom = `${legendH}px`;
+    } else {
+      document.getElementById("chart-panel-wrapper").style.bottom = "";
+    }
+  };
+  positionChartPanelMobile();
+  window.addEventListener("resize", positionChartPanelMobile);
 
   //map.getLayer("lau_raster").addSource()
 

@@ -60,10 +60,12 @@ export function add_hover_events() {
     );
 
     registered_events.push(
-      map.on("mouseleave", "nuts3_stats", (e) => {
+      map.on("mouseleave", "nuts3_stats", () => {
         if (mapState.hoveredId) {
           unselect_feature(mapState.hoveredId);
+          mapState.hoveredId = null;
           map.getCanvas().style.cursor = "";
+          document.getElementById("chart-panel").style.display = "none";
         }
       }),
     );
