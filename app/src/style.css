@@ -228,140 +228,49 @@ h2 {
 
 /* ------------ Font styles ------------ */
 
-/* source-sans-pro-200 - latin */
+/* source-sans-3-regular - cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext */
 @font-face {
-  font-display: swap;
-  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 200;
-  src: url("../fonts/source-sans-pro-v21-latin-200.eot");
-  /* IE9 Compat Modes */
-  src:
-    url("../fonts/source-sans-pro-v21-latin-200.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("../fonts/source-sans-pro-v21-latin-200.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-200.woff") format("woff"),
-    /* Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-200.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("../fonts/source-sans-pro-v21-latin-200.svg#SourceSansPro") format("svg");
-  /* Legacy iOS */
-}
-
-/* source-sans-pro-300 - latin */
-@font-face {
-  font-display: swap;
-  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 300;
-  src: url("../fonts/source-sans-pro-v21-latin-300.eot");
-  /* IE9 Compat Modes */
-  src:
-    url("../fonts/source-sans-pro-v21-latin-300.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("../fonts/source-sans-pro-v21-latin-300.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-300.woff") format("woff"),
-    /* Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-300.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("../fonts/source-sans-pro-v21-latin-300.svg#SourceSansPro") format("svg");
-  /* Legacy iOS */
-}
-
-/* source-sans-pro-regular - latin */
-@font-face {
-  font-display: swap;
-  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Source Sans Pro";
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Source Sans 3';
   font-style: normal;
   font-weight: 400;
-  src: url("../fonts/source-sans-pro-v21-latin-regular.eot");
-  /* IE9 Compat Modes */
-  src:
-    url("../fonts/source-sans-pro-v21-latin-regular.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("../fonts/source-sans-pro-v21-latin-regular.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-regular.woff") format("woff"),
-    /* Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-regular.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("../fonts/source-sans-pro-v21-latin-regular.svg#SourceSansPro") format("svg");
-  /* Legacy iOS */
+  src: url('../fonts/source-sans-3-v19-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext-regular.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+       url('../fonts/source-sans-3-v19-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext-regular.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5+, IE 9+, Safari 3.1+, iOS 4.2+, Android Browser 2.2+ */
 }
 
-/* source-sans-pro-600 - latin */
+/* source-sans-3-italic - cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext */
 @font-face {
-  font-display: swap;
-  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 600;
-  src: url("../fonts/source-sans-pro-v21-latin-600.eot");
-  /* IE9 Compat Modes */
-  src:
-    url("../fonts/source-sans-pro-v21-latin-600.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("../fonts/source-sans-pro-v21-latin-600.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-600.woff") format("woff"),
-    /* Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-600.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("../fonts/source-sans-pro-v21-latin-600.svg#SourceSansPro") format("svg");
-  /* Legacy iOS */
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 400;
+  src: url('../fonts/source-sans-3-v19-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext-italic.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+       url('../fonts/source-sans-3-v19-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext-italic.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5+, IE 9+, Safari 3.1+, iOS 4.2+, Android Browser 2.2+ */
 }
 
-/* source-sans-pro-700 - latin */
+/* source-sans-3-700 - cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext */
 @font-face {
-  font-display: swap;
-  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Source Sans Pro";
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Source Sans 3';
   font-style: normal;
   font-weight: 700;
-  src: url("../fonts/source-sans-pro-v21-latin-700.eot");
-  /* IE9 Compat Modes */
-  src:
-    url("../fonts/source-sans-pro-v21-latin-700.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("../fonts/source-sans-pro-v21-latin-700.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-700.woff") format("woff"),
-    /* Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-700.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("../fonts/source-sans-pro-v21-latin-700.svg#SourceSansPro") format("svg");
-  /* Legacy iOS */
+  src: url('../fonts/source-sans-3-v19-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext-700.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+       url('../fonts/source-sans-3-v19-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext-700.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5+, IE 9+, Safari 3.1+, iOS 4.2+, Android Browser 2.2+ */
 }
 
-/* source-sans-pro-900 - latin */
+/* source-sans-3-700italic - cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext */
 @font-face {
-  font-display: swap;
-  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 900;
-  src: url("../fonts/source-sans-pro-v21-latin-900.eot");
-  /* IE9 Compat Modes */
-  src:
-    url("../fonts/source-sans-pro-v21-latin-900.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("../fonts/source-sans-pro-v21-latin-900.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-900.woff") format("woff"),
-    /* Modern Browsers */
-    url("../fonts/source-sans-pro-v21-latin-900.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("../fonts/source-sans-pro-v21-latin-900.svg#SourceSansPro") format("svg");
-  /* Legacy iOS */
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 700;
+  src: url('../fonts/source-sans-3-v19-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext-700italic.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+       url('../fonts/source-sans-3-v19-cyrillic_cyrillic-ext_greek_greek-ext_latin_latin-ext-700italic.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5+, IE 9+, Safari 3.1+, iOS 4.2+, Android Browser 2.2+ */
 }
+
 
 :root {
-  font-family: "Source Sans Pro";
+  font-family: "Source Sans 3";
   font-style: normal;
   font-size: 15px;
   line-height: 16px;
