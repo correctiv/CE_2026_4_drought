@@ -8,3 +8,5 @@ data_raw
 data_intermediate
 
 **/node_modules
+
+dist
