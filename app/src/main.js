@@ -25,16 +25,13 @@ map.on("load", () => {
       `name:${SETTINGS.language}`,
     ]);
   }
-  map.setPaintProperty('Background', 'background-color', '#000000');
-
 });
 
 
 
 map.once("load", async () => {
 
-
-  document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#ff5064; font-style: italic;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a></i>`;
+  document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#333333; font-style: italic; text-decoration-color:#FF5064;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a></i>`;
   var coll = document.getElementById("detail_button");
   var collContent = document.querySelector(".collapsible-content");
   coll.innerHTML = translate('details_title');
@@ -49,22 +46,9 @@ map.once("load", async () => {
     }
   });
 
-  map.addSource("lau_median_drought_days_raster_src", {
-    type: "raster",
-    tiles: [
-      "https://api.maptiler.com/maps/019cd833-21bd-7afe-b6e9-45f58ffb62b7/{z}/{x}/{y}.png?key=" +
-      apiKey,
-    ],
-    tileSize: 256, // TODO: figure out what the correct size is here
-  });
-
-  map.addSource("lau_max_drought_days_raster_src", {
-    type: "raster",
-    tiles: [
-      "https://api.maptiler.com/maps/019cd874-363a-725a-aa04-88e7d4dbafa9/{z}/{x}/{y}.png?key=" +
-      apiKey,
-    ],
-    tileSize: 256, // TODO: figure out what the correct size is here
+  map.addSource("lau_drought_src", {
+    type: "vector",
+    url: "https://api.maptiler.com/tiles/019cd831-e675-799e-af20-b76d15e156dd/tiles.json?key=" + apiKey,
   });
 
   map.addSource("nuts3_stats", {
@@ -74,62 +58,72 @@ map.once("load", async () => {
       apiKey,
   });
 
-  // Vector layers, which are not dynamic.
-  // Adding the LAU as an transparent vector layer to have the tooltip info on hover.
-  map.addLayer({
-    "id": "nuts3_stats",
-    "type": "fill",
-    "source": "nuts3_stats",
-    "source-layer": "nuts3_stats",
-    "paint": {
-      "fill-color": "#000000",
-      "fill-opacity": [
-        "case",
-        ["boolean", ["feature-state", "hover"], false],
-        0.2,
-        0,
-      ],
-      "fill-outline-color": "rgba(0,0,0,0)",
-    },
+  const medianColorExpr = [
+    "case",
+    ["<", ["get", "median_drought_days"], 30], "#FFFDF9",
+    ["<", ["get", "median_drought_days"], 60], "#F9F3E8",
+    ["<", ["get", "median_drought_days"], 90], "#E7D6B1",
+    ["<", ["get", "median_drought_days"], 120], "#DCC187",
+    ["<", ["get", "median_drought_days"], 150], "#D0AC5E",
+    ["<", ["get", "median_drought_days"], 180], "#C59734",
+    ["<", ["get", "median_drought_days"], 210], "#B2892F",
+    ["<", ["get", "median_drought_days"], 240], "#9E7A2A",
+    ["<", ["get", "median_drought_days"], 270], "#8B6C25",
+    "#775D20",
+  ];
 
-  }, "Background");
+  const maxColorExpr = [
+    "case",
+    ["<", ["get", "max_drought_days"], 72], "#FFFDF9",
+    ["<", ["get", "max_drought_days"], 144], "#D6B562",
+    ["<", ["get", "max_drought_days"], 216], "#C59734",
+    ["<", ["get", "max_drought_days"], 288], "#917126",
+    "#775D20",
+  ];
 
   map.addLayer(
     {
-      id: "nuts3_outline",
-      //minzoom: zoom_change,
-      "type": "line",
-      source: "nuts3_stats",
-      "source-layer": "nuts3_stats",
-      "paint": {
-        "line-color": "#000000",
-        "line-width": [
-          "case",
-          ["boolean", ["feature-state", "hover"], false],
-          1,
-          0
+      id: "lau_vector",
+      type: "fill",
+      source: "lau_drought_src",
+      "source-layer": "drought_days_lau",
+      paint: {
+        "fill-color": medianColorExpr,
+        "fill-opacity": 0.6,
+        "fill-outline-color": [
+          "interpolate", ["linear"], ["zoom"],
+          0, "#00000000",
+          8, "#00000018",
         ],
-        "line-opacity": [
-          "case",
-          ["boolean", ["feature-state", "hover"], false],
-          0.4,
-          0
-        ]
       },
     },
-    //"lau_raster",
-    "Background");
+    "Ocean labels",
+  );
 
-  // //Adding the LAUs as a raster image
+  // Transparent NUTS3 layer used only as hover/click hit target
   map.addLayer(
     {
-      id: "lau_raster",
-      //maxzoom: zoom_change,
-      type: "raster",
-      source: "lau_median_drought_days_raster_src",
+      id: "nuts3_stats",
+      type: "fill",
+      source: "nuts3_stats",
+      "source-layer": "nuts3_stats",
+      paint: {
+        "fill-color": "#000000",
+        "fill-opacity": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          0.07,
+          0,
+        ],
+        "fill-outline-color": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          "#333333",
+          "#00000000",
+        ],
+      },
     },
-    "nuts3_stats",
-    //"Background",
+    "Country labels",
   );
 
   add_hover_events();
@@ -153,11 +147,7 @@ map.once("load", async () => {
   btnMax.onclick = () => {
     if (!show_max_drought_days) {
       show_max_drought_days = true;
-      map.removeLayer("lau_raster");
-      map.addLayer(
-        { id: "lau_raster", type: "raster", source: "lau_max_drought_days_raster_src" },
-        "nuts3_stats",
-      );
+      map.setPaintProperty("lau_vector", "fill-color", maxColorExpr);
       document.getElementById("map_legend").innerHTML = "";
       createLegendMax();
       btnMax.classList.add("active");
@@ -168,12 +158,7 @@ map.once("load", async () => {
   btnMedian.onclick = () => {
     if (show_max_drought_days) {
       show_max_drought_days = false;
-      map.removeLayer("lau_raster");
-      map.addLayer(
-        { id: "lau_raster", type: "raster", source: "lau_median_drought_days_raster_src" },
-        "nuts3_stats",
-      );
-
+      map.setPaintProperty("lau_vector", "fill-color", medianColorExpr);
       document.getElementById("map_legend").innerHTML = "";
       createLegend();
       btnMedian.classList.add("active");
@@ -191,8 +176,6 @@ map.once("load", async () => {
   };
   positionChartPanelMobile();
   window.addEventListener("resize", positionChartPanelMobile);
-
-  //map.getLayer("lau_raster").addSource()
 
   // Add legend
   createLegend();

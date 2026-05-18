@@ -13,7 +13,7 @@ export const mapState = {
 };
 
 // Vector style version of the background map
-const source = "0195cce4-aeae-768b-8b67-c18e34a19224";
+const source = "019e3b21-c81c-7f99-abcd-728ecd3b77fa";
 
 // Generate the basic map
 config.apiKey = apiKey;
@@ -23,3 +23,5 @@ export const map = new Map({
   center: [SETTINGS.center_lon, SETTINGS.center_lat],
   zoom: SETTINGS.zoom, // starting zoom
 });
+
+window._map = map;

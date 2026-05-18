@@ -16,39 +16,38 @@ import {
 if (!String.format) {
   String.format = function(format) {
     var args = Array.prototype.slice.call(arguments, 1);
-    return format.replace(/{(\d+)}/g, function(match, number) { 
+    return format.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] != 'undefined'
-        ? args[number] 
+        ? args[number]
         : match
       ;
     });
   };
 }
 
-// 9 limits
-export const legend_color_limits = [25, 45, 65, 85, 105, 130, 155, 175, 200, ""];
-export const legend_colors = [
-    "#FFFFFF",
-    "#FFE3AE",
-    "#FFC655",
-    "#FFAA00",
-    "#FF7100",
-    "#FF3355",
-    "#C70021",
-    "#901F32",
-    "#6C2F39",
-    "#452D31",
+// 11 limits (start + 9 breaks + end)
+const legend_color_limits = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
+const legend_colors = [
+    "#FFFDF9",
+    "#F9F3E8",
+    "#E7D6B1",
+    "#DCC187",
+    "#D0AC5E",
+    "#C59734",
+    "#B2892F",
+    "#9E7A2A",
+    "#8B6C25",
+    "#775D20",
 ];
 
-
-// 4 limits (max drought days)
-export const legend_color_limits_max = [100, 175, 250, 300, ""];
-export const legend_colors_max = [
-    "#FFFFFF",
-    "#FFE3AE",
-    "#FFAA00",
-    "#FF3355",
-    "#901F32",
+// 6 limits (start + 4 breaks + end)
+const legend_color_limits_max = [0, 72, 144, 216, 288, 360];
+const legend_colors_max = [
+    "#FFFDF9",
+    "#D6B562",
+    "#C59734",
+    "#917126",
+    "#775D20",
 ];
 
 //  LEGEND
@@ -81,7 +80,7 @@ export const createLegend = () => {
     .attr("width", legend_width * 10)
     .attr("height", legend_height)
     .attr("fill", "none")
-    .attr("stroke", "black")
+    .attr("stroke", "#333333")
     .attr("stroke-width", 0.5);
 
   legend_svg
@@ -91,12 +90,11 @@ export const createLegend = () => {
     .append("text")
     .attr("class", "legend-number")
     .attr("width", legend_width)
-    .attr("text-anchor", "middle")
-    .attr("x", (_, i) => (i + 1) * legend_width)
+    .attr("text-anchor", (_, i) => i === 0 ? "start" : i === legend_color_limits.length - 1 ? "end" : "middle")
+    .attr("x", (_, i) => i * legend_width)
     .attr("y", (_, i) => (i % 2 ? 15 : 48))
     .text((d) => `${d}`);
 };
-
 
 export const createLegendMax = () => {
   var w = document.getElementById("map-legend-wrapper").offsetWidth;
@@ -128,7 +126,7 @@ export const createLegendMax = () => {
     .attr("width", legend_width * n)
     .attr("height", legend_height)
     .attr("fill", "none")
-    .attr("stroke", "black")
+    .attr("stroke", "#333333")
     .attr("stroke-width", 0.5);
 
   legend_svg
@@ -138,8 +136,8 @@ export const createLegendMax = () => {
     .append("text")
     .attr("class", "legend-number")
     .attr("width", legend_width)
-    .attr("text-anchor", "middle")
-    .attr("x", (_, i) => (i + 1) * legend_width)
+    .attr("text-anchor", (_, i) => i === 0 ? "start" : i === legend_color_limits_max.length - 1 ? "end" : "middle")
+    .attr("x", (_, i) => i * legend_width)
     .attr("y", (_, i) => (i % 2 ? 15 : 48))
     .text((d) => `${d}`);
 };
@@ -195,13 +193,27 @@ function num_format(num) {
 }
 
 function generate_popup_html(feature) {
+  const pct = Math.min((feature.properties.median_drought_days / 365) * 100, 100).toFixed(1);
+  const pctMax = Math.min((feature.properties.max_drought_days / 365) * 100, 100).toFixed(1);
   return `<div id='data-popup'>
     <a id="close-button">×</a>
     <H2>${feature.properties.nuts_name}</H2>
     ${String.format(translate("details_cropland"), num_format(feature.properties.median_drought_days))}<br>
     ${String.format(translate("details_pop"), num_format(feature.properties.population))}<br>  <span class="tight-break"></span>
-    ${String.format(translate("details_median"), num_format(feature.properties.median_drought_days))}<br>  <span class="tight-break"></span>
-    ${String.format(translate("details_max"), num_format(feature.properties.max_drought_days), feature.properties.max_drought_days_year)}<br>
+    ${String.format(translate("details_median"), num_format(Math.round(feature.properties.median_drought_days)))}<br>
+    <div class="drought-bar-track">
+      <div class="drought-bar-fill" style="width:${pct}%"></div>
+    </div>
+    <div class="drought-bar-labels">
+      <span>0</span><span>365</span>
+    </div>
+    <span class="tight-break"></span>
+    ${String.format(translate("details_max"), num_format(Math.round(feature.properties.max_drought_days)), feature.properties.max_drought_days_year)}<br>
+    <div class="drought-bar-track" style="margin-bottom:1px">
+      <div class="drought-bar-fill" style="width:${pctMax}%"></div>
+    </div>
+    <div class="drought-bar-labels">
+      <span>0</span><span>365</span>
+    </div>
 </div>`;
 }
-

@@ -21,8 +21,6 @@ function is_mobile() {
 export function button_clicked(field) {
   if (mapState.color_field != field) {
     mapState.color_field = field;
-    map.removeLayer("lau_raster");
-    add_dynamic_layers();
   }
 }
 
