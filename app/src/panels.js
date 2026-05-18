@@ -16,44 +16,43 @@ import {
 if (!String.format) {
   String.format = function(format) {
     var args = Array.prototype.slice.call(arguments, 1);
-    return format.replace(/{(\d+)}/g, function(match, number) { 
+    return format.replace(/{(\d+)}/g, function(match, number) {
       return typeof args[number] != 'undefined'
-        ? args[number] 
+        ? args[number]
         : match
       ;
     });
   };
 }
 
-// 9 limits
-export const legend_color_limits = [25, 45, 65, 85, 105, 130, 155, 175, 200, ""];
-export const legend_colors = [
-    "#FFFFFF",
-    "#FFE3AE",
-    "#FFC655",
-    "#FFAA00",
-    "#FF7100",
-    "#FF3355",
-    "#C70021",
-    "#901F32",
-    "#6C2F39",
-    "#452D31",
+// 11 limits (start + 9 breaks + end)
+const legend_color_limits = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
+const legend_colors = [
+    "#FFFDF9",
+    "#F9F3E8",
+    "#E7D6B1",
+    "#DCC187",
+    "#D0AC5E",
+    "#C59734",
+    "#B2892F",
+    "#9E7A2A",
+    "#8B6C25",
+    "#775D20",
 ];
 
-
-// 4 limits (max drought days)
-export const legend_color_limits_max = [100, 175, 250, 300, ""];
-export const legend_colors_max = [
-    "#FFFFFF",
-    "#FFE3AE",
-    "#FFAA00",
-    "#FF3355",
-    "#901F32",
+// 6 limits (start + 4 breaks + end)
+const legend_color_limits_max = [0, 72, 144, 216, 288, 360];
+const legend_colors_max = [
+    "#FFFDF9",
+    "#D6B562",
+    "#C59734",
+    "#917126",
+    "#775D20",
 ];
 
 //  LEGEND
 export const createLegend = () => {
-  var w = document.getElementById("map-overlay").offsetWidth;
+  var w = document.getElementById("map-legend-wrapper").offsetWidth;
 
   const legend_height = 12;
   const legend_width = (w - 20) / 10;
@@ -70,9 +69,9 @@ export const createLegend = () => {
     .append("rect")
     .attr("width", legend_width)
     .attr("height", legend_height)
-    .attr("x", (d, i) => i * legend_width)
+    .attr("x", (_, i) => i * legend_width)
     .attr("y", 20)
-    .attr("fill", (d, i) => legend_colors[i]);
+    .attr("fill", (_, i) => legend_colors[i]);
 
   legend_svg
     .append("rect")
@@ -81,7 +80,7 @@ export const createLegend = () => {
     .attr("width", legend_width * 10)
     .attr("height", legend_height)
     .attr("fill", "none")
-    .attr("stroke", "black")
+    .attr("stroke", "#333333")
     .attr("stroke-width", 0.5);
 
   legend_svg
@@ -91,15 +90,14 @@ export const createLegend = () => {
     .append("text")
     .attr("class", "legend-number")
     .attr("width", legend_width)
-    .attr("text-anchor", "middle")
-    .attr("x", (d, i) => (i + 1) * legend_width)
-    .attr("y", (d, i) => (i % 2 ? 15 : 48))
-    .text((d, i) => `${(d)}`);
+    .attr("text-anchor", (_, i) => i === 0 ? "start" : i === legend_color_limits.length - 1 ? "end" : "middle")
+    .attr("x", (_, i) => i * legend_width)
+    .attr("y", (_, i) => (i % 2 ? 15 : 48))
+    .text((d) => `${d}`);
 };
 
-
 export const createLegendMax = () => {
-  var w = document.getElementById("map-overlay").offsetWidth;
+  var w = document.getElementById("map-legend-wrapper").offsetWidth;
 
   const legend_height = 12;
   const n = legend_colors_max.length;
@@ -117,9 +115,9 @@ export const createLegendMax = () => {
     .append("rect")
     .attr("width", legend_width)
     .attr("height", legend_height)
-    .attr("x", (d, i) => i * legend_width)
+    .attr("x", (_, i) => i * legend_width)
     .attr("y", 20)
-    .attr("fill", (d, i) => legend_colors_max[i]);
+    .attr("fill", (_, i) => legend_colors_max[i]);
 
   legend_svg
     .append("rect")
@@ -128,7 +126,7 @@ export const createLegendMax = () => {
     .attr("width", legend_width * n)
     .attr("height", legend_height)
     .attr("fill", "none")
-    .attr("stroke", "black")
+    .attr("stroke", "#333333")
     .attr("stroke-width", 0.5);
 
   legend_svg
@@ -138,10 +136,10 @@ export const createLegendMax = () => {
     .append("text")
     .attr("class", "legend-number")
     .attr("width", legend_width)
-    .attr("text-anchor", "middle")
-    .attr("x", (d, i) => (i + 1) * legend_width)
-    .attr("y", (d, i) => (i % 2 ? 15 : 48))
-    .text((d, i) => `${(d)}`);
+    .attr("text-anchor", (_, i) => i === 0 ? "start" : i === legend_color_limits_max.length - 1 ? "end" : "middle")
+    .attr("x", (_, i) => i * legend_width)
+    .attr("y", (_, i) => (i % 2 ? 15 : 48))
+    .text((d) => `${d}`);
 };
 
 // SEARCH PANEL
@@ -171,11 +169,13 @@ export function createSearchBar() {
 // DETAILS PANEL
 export function fill_chart_panel(feature) {
   document.getElementById("chart-panel").style.display = "block";
-  document.getElementById("chart-panel").innerHTML = generate_popup_html(
-    feature,
-    mapState.color_field,
-  );
-  load_popup_data(feature);
+  document.getElementById("chart-panel").innerHTML = generate_popup_html(feature);
+
+  if (is_details_panel_sticky()) {
+    let cb = document.getElementById("close-button");
+    cb.style.display = "block";
+    cb.onclick = close_chart_panel;
+  }
 }
 
 function close_chart_panel() {
@@ -193,93 +193,27 @@ function num_format(num) {
 }
 
 function generate_popup_html(feature) {
+  const pct = Math.min((feature.properties.median_drought_days / 365) * 100, 100).toFixed(1);
+  const pctMax = Math.min((feature.properties.max_drought_days / 365) * 100, 100).toFixed(1);
   return `<div id='data-popup'>
     <a id="close-button">×</a>
     <H2>${feature.properties.nuts_name}</H2>
-    ${String.format(translate("details_cropland"), num_format(feature.properties.cropland_area_percent))}<br>
+    ${String.format(translate("details_cropland"), num_format(feature.properties.median_drought_days))}<br>
     ${String.format(translate("details_pop"), num_format(feature.properties.population))}<br>  <span class="tight-break"></span>
-    ${String.format(translate("details_median"), num_format(feature.properties.median_drought_days))}<br>  <span class="tight-break"></span>
-    ${String.format(translate("details_max"), num_format(feature.properties.max_drought_days), feature.properties.max_drought_days_year)}<br>
+    ${String.format(translate("details_median"), num_format(Math.round(feature.properties.median_drought_days)))}<br>
+    <div class="drought-bar-track">
+      <div class="drought-bar-fill" style="width:${pct}%"></div>
+    </div>
+    <div class="drought-bar-labels">
+      <span>0</span><span>365</span>
+    </div>
+    <span class="tight-break"></span>
+    ${String.format(translate("details_max"), num_format(Math.round(feature.properties.max_drought_days)), feature.properties.max_drought_days_year)}<br>
+    <div class="drought-bar-track" style="margin-bottom:1px">
+      <div class="drought-bar-fill" style="width:${pctMax}%"></div>
+    </div>
+    <div class="drought-bar-labels">
+      <span>0</span><span>365</span>
+    </div>
 </div>`;
-}
-
-function load_popup_data(feature) {
-  var w = document.getElementById("chart-panel").offsetWidth;
-  // set the dimensions and margins of the graph
-  var margin = { top: 10, right: 30, bottom: 20, left: 30 },
-    width = w - margin.left - margin.right,
-    height = 200 - margin.top - margin.bottom;
-
-  // append the svg object to the body of the page
-  var svg = d3
-    .select("#popup_chart")
-    .append("svg")
-    .attr("viewBox", `0 0 ${w} ${200}`)
-    //.attr("width", width + margin.left + margin.right)
-    //.attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  // prepare the data:
-  var data = [];
-  for (var year of [1961, 1971, 1981, 1991, 2001, 2011, 2018, 2021, 2023]) {
-    if (feature.properties["pop_" + year] !== undefined) {
-      data.push({
-        year: year,
-        pop: feature.properties["pop_" + year],
-      });
-    }
-  }
-
-  // Add X axis --> number format with no thousand sep
-
-  var x = d3
-    .scaleLinear()
-    .domain(
-      d3.extent(data, function (d) {
-        return d.year;
-      }),
-    )
-    .range([0, width]);
-
-  svg
-    .append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).tickFormat(d3.format(".0f")).ticks(6)); //.format(".0%")
-  // Add Y axis
-  var y = d3
-    .scaleLinear()
-    .domain([
-      0,
-      d3.max(data, function (d) {
-        return +d.pop;
-      }),
-    ])
-    .range([height, 0]);
-  svg.append("g").call(d3.axisLeft(y).tickFormat(d3.format(".2s")).ticks(8));
-
-  // Add the line
-  svg
-    .append("path")
-    .datum(data)
-    .attr("fill", "none")
-    .attr("stroke", "steelblue")
-    .attr("stroke-width", 1.5)
-    .attr(
-      "d",
-      d3
-        .line()
-        .x(function (d) {
-          return x(d.year);
-        })
-        .y(function (d) {
-          return y(d.pop);
-        }),
-    );
-
-  if (is_details_panel_sticky()) {
-    let cb = document.getElementById("close-button");
-    cb.style.display = "block";
-    cb.onclick = close_chart_panel;
-  }
 }

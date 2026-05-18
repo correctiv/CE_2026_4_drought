@@ -11,25 +11,26 @@
 <body>
   <div id="map"></div>
 
-  <div class="map-overlay" id="map-overlay">
-    <div class="map-overlay-element map-legend-panel">
-      <div id="color_buttons">
-        <a>Show drought days:</a><br>
-        <button id="button_median_drought">Median</button>
-        <button id="button_max_drought">Max.</button>
-      </div>
+  <div id="period-buttons">
+    <button id="button_median_drought" class="active">Median</button>
+    <button id="button_max_drought">Max.</button>
+  </div>
+
+  <div id="chart-panel-wrapper">
+    <div class="map-overlay-element" id="chart-panel"></div>
+  </div>
+
+  <div id="map-legend-wrapper">
+    <div class="map-overlay-element">
       <div id="map_legend"></div>
-    </div>
-
-    <div class="map-info-panel map-overlay-element" id="details-panel">
-      <div class="map-info-panel map-overlay-element" id="chart-panel"></div>
-
-      <!-- <div id="legend"></div> -->
-      <div id="source"></div>
-      <div id="detail_button" class="collapsible-btn"></div>
+      <div id="legend-footer">
+        <div id="source"></div>
+        <div id="detail_button" class="collapsible-btn"></div>
+      </div>
       <p class="collapsible-content"></p>
     </div>
   </div>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 

@@ -21,8 +21,6 @@ function is_mobile() {
 export function button_clicked(field) {
   if (mapState.color_field != field) {
     mapState.color_field = field;
-    map.removeLayer("lau_raster");
-    add_dynamic_layers();
   }
 }
 
@@ -60,10 +58,12 @@ export function add_hover_events() {
     );
 
     registered_events.push(
-      map.on("mouseleave", "nuts3_stats", (e) => {
+      map.on("mouseleave", "nuts3_stats", () => {
         if (mapState.hoveredId) {
           unselect_feature(mapState.hoveredId);
+          mapState.hoveredId = null;
           map.getCanvas().style.cursor = "";
+          document.getElementById("chart-panel").style.display = "none";
         }
       }),
     );

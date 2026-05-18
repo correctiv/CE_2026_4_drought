@@ -4,18 +4,14 @@ import "@maptiler/geocoding-control/style.css";
 
 import "./style.css";
 
-import median_nuts3_config from '../../data_out/median_drought_days_nuts3_config.json' assert { type: 'json' };
-import max_nuts3_config from '../../data_out/max_drought_days_nuts3_config.json' assert { type: 'json' };
-
 import { SETTINGS, apiKey, translate } from "./settings.js";
 import { map, mapState } from "./create_map.js";
 import {
   add_hover_events,
-  button_clicked,
   select_feature,
   unselect_feature,
 } from "./events";
-import { createLegend, createLegendMax, createSearchBar, fill_chart_panel, legend_color_limits, legend_colors } from "./panels.js";
+import { createLegend, createLegendMax, createSearchBar, fill_chart_panel } from "./panels.js";
 
 // we change the labels to be in the correct languages
 map.on("load", () => {
@@ -29,48 +25,30 @@ map.on("load", () => {
       `name:${SETTINGS.language}`,
     ]);
   }
-  map.setPaintProperty('Background', 'background-color', '#000000');
-
 });
 
 
 
 map.once("load", async () => {
 
-
-  document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#ff5064; font-style: italic;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a></i>`;
+  document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#333333; font-style: italic; text-decoration-color:#FF5064;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a></i>`;
   var coll = document.getElementById("detail_button");
+  var collContent = document.querySelector(".collapsible-content");
   coll.innerHTML = translate('details_title');
-
-  translate('details_title');
-  coll.nextElementSibling.innerHTML = translate('details_contents');
+  collContent.innerHTML = translate('details_contents');
 
   coll.addEventListener("click", function () {
     this.classList.toggle("coll-active");
-    var content = this.nextElementSibling;
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
+    if (collContent.style.maxHeight) {
+      collContent.style.maxHeight = null;
     } else {
-      content.style.maxHeight = content.scrollHeight + "px";
+      collContent.style.maxHeight = collContent.scrollHeight + "px";
     }
   });
 
-  map.addSource("lau_median_drought_days_raster_src", {
-    type: "raster",
-    tiles: [
-      "https://api.maptiler.com/maps/019cd833-21bd-7afe-b6e9-45f58ffb62b7/{z}/{x}/{y}.png?key=" +
-      apiKey,
-    ],
-    tileSize: 256, // TODO: figure out what the correct size is here
-  });
-
-  map.addSource("lau_max_drought_days_raster_src", {
-    type: "raster",
-    tiles: [
-      "https://api.maptiler.com/maps/019cd874-363a-725a-aa04-88e7d4dbafa9/{z}/{x}/{y}.png?key=" +
-      apiKey,
-    ],
-    tileSize: 256, // TODO: figure out what the correct size is here
+  map.addSource("lau_drought_src", {
+    type: "vector",
+    url: "https://api.maptiler.com/tiles/019cd831-e675-799e-af20-b76d15e156dd/tiles.json?key=" + apiKey,
   });
 
   map.addSource("nuts3_stats", {
@@ -80,84 +58,72 @@ map.once("load", async () => {
       apiKey,
   });
 
-  // Vector layers, which are not dynamic.
-  // Adding the LAU as an transparent vector layer to have the tooltip info on hover.
-  map.addLayer({
-    "id": "nuts3_stats",
-    "type": "fill",
-    "source": "nuts3_stats",
-    "source-layer": "nuts3_stats",
-    "paint": {
-      "fill-opacity": [
-        "case",
-        ["boolean", ["feature-state", "hover"], false],
-        0.25,
-        0,
-      ],
-      "fill-color": [
-        "case",
-        [
-          "<",
-          [
-            "get",
-            "median_drought_days"
-          ],
-          106
-        ],
-        "#FFC655",
-        "#FF3355"
-      ],
-      "fill-outline-color": [
-        "interpolate",
-        ["linear"],
-        ["zoom"],
-        0,
-        "#fefefe00",
-        100,
-        "#fefefe00",
-      ],
-    },
+  const medianColorExpr = [
+    "case",
+    ["<", ["get", "median_drought_days"], 30], "#FFFDF9",
+    ["<", ["get", "median_drought_days"], 60], "#F9F3E8",
+    ["<", ["get", "median_drought_days"], 90], "#E7D6B1",
+    ["<", ["get", "median_drought_days"], 120], "#DCC187",
+    ["<", ["get", "median_drought_days"], 150], "#D0AC5E",
+    ["<", ["get", "median_drought_days"], 180], "#C59734",
+    ["<", ["get", "median_drought_days"], 210], "#B2892F",
+    ["<", ["get", "median_drought_days"], 240], "#9E7A2A",
+    ["<", ["get", "median_drought_days"], 270], "#8B6C25",
+    "#775D20",
+  ];
 
-  }, "Background");
-
-  map.setPaintProperty("nuts3_stats", "fill-color", median_nuts3_config)
+  const maxColorExpr = [
+    "case",
+    ["<", ["get", "max_drought_days"], 72], "#FFFDF9",
+    ["<", ["get", "max_drought_days"], 144], "#D6B562",
+    ["<", ["get", "max_drought_days"], 216], "#C59734",
+    ["<", ["get", "max_drought_days"], 288], "#917126",
+    "#775D20",
+  ];
 
   map.addLayer(
     {
-      id: "nuts3_outline",
-      //minzoom: zoom_change,
-      "type": "line",
+      id: "lau_vector",
+      type: "fill",
+      source: "lau_drought_src",
+      "source-layer": "drought_days_lau",
+      paint: {
+        "fill-color": medianColorExpr,
+        "fill-opacity": 0.6,
+        "fill-outline-color": [
+          "interpolate", ["linear"], ["zoom"],
+          0, "#00000000",
+          8, "#00000018",
+        ],
+      },
+    },
+    "Ocean labels",
+  );
+
+  // Transparent NUTS3 layer used only as hover/click hit target
+  map.addLayer(
+    {
+      id: "nuts3_stats",
+      type: "fill",
       source: "nuts3_stats",
       "source-layer": "nuts3_stats",
-      "paint": {
-        "line-color": "#000000",
-        "line-width": [
+      paint: {
+        "fill-color": "#000000",
+        "fill-opacity": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          2,
-          0
+          0.07,
+          0,
         ],
-        "line-opacity": [
+        "fill-outline-color": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          0.6,
-          0
-        ]
-      }
+          "#333333",
+          "#00000000",
+        ],
+      },
     },
-    //"lau_raster",
-    "Background");
-
-  // //Adding the LAUs as a raster image
-  map.addLayer(
-    {
-      id: "lau_raster",
-      //maxzoom: zoom_change,
-      type: "raster",
-      source: "lau_median_drought_days_raster_src",
-    },
-    "nuts3_stats",
-    //"Background",
+    "Country labels",
   );
 
   add_hover_events();
@@ -175,46 +141,41 @@ map.once("load", async () => {
 
   let show_max_drought_days = false;
 
-  document.getElementById("button_max_drought").onclick = () => {
+  const btnMedian = document.getElementById("button_median_drought");
+  const btnMax = document.getElementById("button_max_drought");
+
+  btnMax.onclick = () => {
     if (!show_max_drought_days) {
       show_max_drought_days = true;
-      map.removeLayer("lau_raster")
-      map.addLayer(
-        {
-          id: "lau_raster",
-          type: "raster",
-          source: "lau_max_drought_days_raster_src",
-        },
-        "nuts3_stats",
-      );
-      map.setPaintProperty("nuts3_stats", "fill-color", max_nuts3_config)
-
+      map.setPaintProperty("lau_vector", "fill-color", maxColorExpr);
       document.getElementById("map_legend").innerHTML = "";
       createLegendMax();
+      btnMax.classList.add("active");
+      btnMedian.classList.remove("active");
     }
   };
 
-  document.getElementById("button_median_drought").onclick = () => {
+  btnMedian.onclick = () => {
     if (show_max_drought_days) {
       show_max_drought_days = false;
-      map.removeLayer("lau_raster")
-      map.addLayer(
-        {
-          id: "lau_raster",
-          type: "raster",
-          source: "lau_median_drought_days_raster_src",
-        },
-        "nuts3_stats",
-      );
-
-      map.setPaintProperty("nuts3_stats", "fill-color", median_nuts3_config)
-
+      map.setPaintProperty("lau_vector", "fill-color", medianColorExpr);
       document.getElementById("map_legend").innerHTML = "";
       createLegend();
+      btnMedian.classList.add("active");
+      btnMax.classList.remove("active");
     }
   };
 
-  //map.getLayer("lau_raster").addSource()
+  const positionChartPanelMobile = () => {
+    if (window.innerWidth <= 650) {
+      const legendH = document.getElementById("map-legend-wrapper").offsetHeight;
+      document.getElementById("chart-panel-wrapper").style.bottom = `${legendH}px`;
+    } else {
+      document.getElementById("chart-panel-wrapper").style.bottom = "";
+    }
+  };
+  positionChartPanelMobile();
+  window.addEventListener("resize", positionChartPanelMobile);
 
   // Add legend
   createLegend();

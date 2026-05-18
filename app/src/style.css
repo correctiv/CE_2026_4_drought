@@ -4,33 +4,11 @@ body {
   padding: 0;
 }
 
-#map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
+html, body, #map {
+  height: 100%;
 }
 
 /* ------------ Map overlay styles ------------ */
-
-.maplibregl-ctrl-top-left {
-  width: 100%;
-  max-width:100%
-}
-
-.mapboxgl-ctrl-geocoder {
-  width: 33%;
-  max-width:400px
-}
-
-
-.map-overlay {
-  position: absolute;
-  max-width: 400px;
-  width: 33%;
-  top: 30px;
-  padding: 10px;
-}
 
 h2 {
   margin-top: 0;
@@ -40,112 +18,212 @@ h2 {
 .map-overlay-element {
   background-color: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  padding: 10px;
+  border-radius: 2px;
+  padding: 2px 10px;
   width: 100%;
   box-sizing: border-box;
   line-height: 1.5em;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.map-overlay-element fieldset {
-  border: none;
-  padding: 0;
-  margin: 0 0 100px;
-}
-
-.map-overlay-element fieldset:last-child {
-  margin: 10px;
-}
-
-.map-legend-panel {
-  margin-top: 10px;
-}
-
-.map-overlay-element button {
-  display: inline-block;
-  width: 70px;
-  height: 20px;
-  border: none;
-  cursor: pointer;
-}
-
-.map-overlay-element button:focus {
-  outline: none;
-}
-
-.map-overlay-element button:hover {
-  box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.map-info-panel {
-  margin-top: 8px;
-  max-height: 820px;
-  height: 30%;
+  margin-bottom: 10px;
 }
 
 #chart-panel {
   display: none;
+  padding: 24px 24px 18px;
 }
 
 .legend-number {
   text-align: center;
   font-size: 0.7em;
+  fill: #333333;
 }
 
 .tight-break {
   display: block;
   height: 0.5em;
-  /* smaller than normal line break */
+}
+
+.drought-bar-track {
+  width: 100%;
+  height: 3px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  margin: 12px 0 4px;
+  overflow: visible;
+}
+
+.drought-bar-fill {
+  position: relative;
+  height: 100%;
+  background: #C59734;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.drought-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7em;
+  color: #999;
+  margin-top: 2px;
+}
+
+@media only screen and (min-width: 651px) {
+  .drought-bar-labels {
+    font-size: 12px;
+  }
+}
+
+.drought-bar-fill::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background: #C59734;
+  border-radius: 50%;
 }
 
 #close-button {
   display: none;
   float: right;
   right: 5px;
-  /* top: 5px; */
   font-size: 2em;
   cursor: pointer;
 }
 
+/* ------------ Period buttons ------------ */
+
+#period-buttons {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  display: flex;
+  gap: 6px;
+}
+
+#period-buttons button {
+  min-width: 70px;
+  border: 1px solid #CECECE;
+  background: #F8F8F8;
+  color: #333;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+#period-buttons button:focus {
+  outline: none;
+}
+
+#period-buttons button:hover {
+  background: #f0f0f0;
+}
+
+#period-buttons button.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* ------------ Collapsible ------------ */
+
+#legend-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 13px;
+}
+
 .collapsible-btn {
   cursor: pointer;
-  padding: .5em;
-  text-align: left;
+  padding: .5em 0;
+  text-align: right;
   outline: none;
-  line-height: .5em;
+  line-height: 1.4em;
+  text-decoration: underline;
+  font-size: 13px;
 }
 
 .collapsible-content {
-  margin: 0em;
+  margin: 0;
   padding: 0 .3em;
   max-height: 0;
   font-size: 13px;
   line-height: 1.4em;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
-  background-color: #f1f1f1;
   hyphens: manual;
 }
 
-.coll-active,
-.collapsible-btn:hover {
-  background-color: #c0b9b9;
+/* ------------ Desktop layout ------------ */
+
+@media only screen and (min-width: 651px) {
+  #chart-panel-wrapper {
+    position: absolute;
+    top: 96px;
+    left: 0;
+    width: 350px;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  #map-legend-wrapper {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    max-width: 450px;
+    width: 50%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
 }
 
-.collapsible-btn:after {
-  content: '\02795';
-  /* Unicode character for "plus" sign (+) */
-  font-size: 10px;
-  color: white;
-  float: right;
-}
+/* ------------ Mobile layout ------------ */
 
-.collapsible-btn,
-.coll-active:after {
-  content: "\2796";
-  /* Unicode character for "minus" sign (-) */
+@media only screen and (max-width: 650px) {
+  #period-buttons {
+    top: 60px;
+    left: 10px;
+  }
+
+  #period-title {
+    font-size: 13px;
+  }
+
+  #period-buttons button {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+    min-width: 50px;
+  }
+
+  #chart-panel-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  #map-legend-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .map-overlay-element {
+    border-radius: 0;
+    margin-bottom: 0;
+  }
 }
 
 /* ------------ Font styles ------------ */
@@ -299,51 +377,3 @@ h2 {
   -webkit-text-size-adjust: 100%;
 }
 
-@media (max-width: 768px) {
-  :root {
-    font-size: 10px;
-    line-height: 11px;
-  }
-
-  .collapsible-btn:after {
-    /* Unicode character for "plus" sign (+) */
-    font-size: 9px;
-  }
-
-  #close-button {
-    font-size: 2em;
-  }
-
-  .collapsible-content {
-    font-size: 6px;
-  }
-
-  .map-overlay {
-    position: absolute;
-    max-width: 300px;
-    width: 40%;
-    /* top: 10px; */
-    /* padding: 10px; */
-  }
-
-
-  .mapboxgl-ctrl-geocoder {
-  width: 40%;
-  max-width:300px
-}
-
-  .map-overlay-element {
-    border-radius: 4px;
-    padding: 10px;
-    margin-bottom: 55px;
-    /* margin-top: 0; */
-    margin-bottom: 0;
-  }
-
-  .map-overlay-element button {
-  font-size:10px;
-  width: 40px;
-  height: 14px;
-  }
-
-}
