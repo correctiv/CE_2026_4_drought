@@ -7,14 +7,14 @@ export function is_mobile() {
 }
 
 // Get the browser language
-const supported_languages = ["de"];
+const supported_languages = ["de", "en"];
 let browser_language = (navigator.language || navigator.userLanguage).substr(
   0,
   2,
 );
 
 export var SETTINGS = {
-  language: browser_language in supported_languages ? browser_language : "en",
+  language: supported_languages.includes(browser_language) ? browser_language : "en",
   center_lat: 46.218,
   center_lon: 6.121,
   zoom: 3,
