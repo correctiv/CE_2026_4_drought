@@ -91,13 +91,13 @@ The following input data need to be downloaded into `data_raw` to complete this 
 The data processing is spread across several scripts, all of which are intended to be run from top to bottom. The intended order for these scripts is as follows:
 
 ## combine EU LAUs and UK LADs
-[scripts/join_eu_and_uk_laus.ipynb](scripts/join_eu_and_uk_laus.ipynb)
+[scripts/01_join_eu_and_uk_laus.ipynb](scripts/01_join_eu_and_uk_laus.ipynb)
 
 This scripts combines the LAU and LAD boundary files into a single shapefile that follows NUTS/LAU conventions. Resulting polygons are in the same crs and share column names.
 
 
 ## compute intersection matrices for polygons and CDI raster
-[scripts/extract_coverage_fraction.r](scripts/extract_coverage_fraction.r)
+[scripts/02_extract_coverage_fraction.r](scripts/02_extract_coverage_fraction.r)
 
 The raster size of the CDI is around 5x5km at the equator and thus is not ideal for the analysis at LAU scale. If we were to average all Pixels that intersect a LAU shape, resulting drought measurements would be highly skewed. Considering only pixels that are fully inside a shape would lead to hundreds of LAUs without data - in addition to skewed results. the package exactextract ([github](https://github.com/isciences/exactextract)) solves this issue by computing how much of a pixel is covered by a complex shape rather efficiently. Sadly, this particular function is not available for the python package, so we switch to R for this singular script.
 
@@ -106,7 +106,7 @@ For debugging and ease of use, the shapes are processed in batches by country. F
 The top of this script contains a boolean switch to select LAU or NUTS3 shapes. It must be run twice, once for each of the geometry types.
 
 ## compute drought days
-[scripts/compute_drought_days_by_LAU.ipynb](scripts/compute_drought_days_by_LAU.ipynb)
+[scripts/03_compute_drought_days_by_LAU.ipynb](scripts/03_compute_drought_days_by_LAU.ipynb)
 
 given the results from the previous operation, reading drought inidcator data for a given shape becomes computationally trivial. This step is methodologically significant however: The drought indicator is updated every 10 days, so each geoTIFF file represents drought severity over a 10 day span (minus five days throughout the year due to 31-day months). The process is as follows:
 
@@ -118,7 +118,7 @@ As before, this script comes with a boolan toggle to perform the computation at 
 
 
 ## get cropland area
-[scripts/cropland_area.ipynb](scripts/cropland_area.ipynb)
+[scripts/04_cropland_area.ipynb](scripts/04_cropland_area.ipynb)
 
 Next, for each NUTS3 area, we compute the relative surface area used for growing crops using the high resolution layer croplands by copernicus. The dataset has an exceptionally high resolution of 10x10m at all latitudes. Becaus of this, we do not need to compute pixel-polygon overlaps. Just counting the number of pixels that have their center inside a polygon is sufficient. 
 
@@ -126,6 +126,6 @@ Note that the principal issue with the dataset is its volume, which in turn dema
 
 
 ## create output files 
-[scripts/build_output_spreadsheets.ipynb](scripts/build_output_spreadsheets.ipynb)
+[scripts/05_build_output_spreadsheets.ipynb](scripts/05_build_output_spreadsheets.ipynb)
 
 Finally, we join all of the computed data into several dataframes that are stored to disk to be immediately uploaded to maptiler or passed on to the network.
