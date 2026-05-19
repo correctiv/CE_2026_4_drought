@@ -47,9 +47,9 @@ out_data_dir = path.join(basedir, "data_out")
 uk_lau_dir = path.join(raw_data_dir, "LAD_Dec_2021_GB_BFC_2022_4815044792916693521")
 ie_lau_dir = path.join(raw_data_dir, "geography-sdz2021-esri-shapefile")
 eu_lau_dir = path.join(raw_data_dir, "LAU_RG_01M_2021_4326.shp")
-
-
 lau_dir = path.join(intermediate_data_dir, "eu_uk_laus_joined.shp")
+
+
 nuts_dir = path.join(raw_data_dir, "NUTS_RG_01M_2021_4326.shp")
 country_dir = path.join(raw_data_dir, "CNTR_RG_10M_2024_4326.shp")
 
