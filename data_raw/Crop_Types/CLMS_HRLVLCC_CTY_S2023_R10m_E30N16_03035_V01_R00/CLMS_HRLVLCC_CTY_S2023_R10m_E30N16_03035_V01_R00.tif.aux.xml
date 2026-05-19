@@ -1,0 +1,185 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <GDALRasterAttributeTable tableType="thematic">
+      <FieldDefn index="0">
+        <Name>value</Name>
+        <Type>0</Type>
+        <Usage>2</Usage>
+      </FieldDefn>
+      <FieldDefn index="1">
+        <Name>count</Name>
+        <Type>1</Type>
+        <Usage>1</Usage>
+      </FieldDefn>
+      <FieldDefn index="2">
+        <Name>class_name</Name>
+        <Type>2</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <FieldDefn index="3">
+        <Name>area_km2</Name>
+        <Type>1</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <FieldDefn index="4">
+        <Name>area_perc</Name>
+        <Type>1</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <Row index="0">
+        <F>0</F>
+        <F>36818264</F>
+        <F>all non-cropland areas</F>
+        <F>3681.8264</F>
+        <F>53.02485793507032</F>
+      </Row>
+      <Row index="1">
+        <F>1110</F>
+        <F>1429918</F>
+        <F>Wheat</F>
+        <F>142.9918</F>
+        <F>2.059336605571623</F>
+      </Row>
+      <Row index="2">
+        <F>1120</F>
+        <F>1147025</F>
+        <F>Barley</F>
+        <F>114.7025</F>
+        <F>1.651920298930282</F>
+      </Row>
+      <Row index="3">
+        <F>1130</F>
+        <F>98007</F>
+        <F>Maize</F>
+        <F>9.800700000000001</F>
+        <F>0.1411475362239359</F>
+      </Row>
+      <Row index="4">
+        <F>1140</F>
+        <F>525</F>
+        <F>Rice</F>
+        <F>0.0525</F>
+        <F>0.0007560935088061707</F>
+      </Row>
+      <Row index="5">
+        <F>1150</F>
+        <F>1023530</F>
+        <F>Other Cereals</F>
+        <F>102.353</F>
+        <F>1.47406550298739</F>
+      </Row>
+      <Row index="6">
+        <F>1210</F>
+        <F>574142</F>
+        <F>Fresh Vegetables</F>
+        <F>57.4142</F>
+        <F>0.8268667415866522</F>
+      </Row>
+      <Row index="7">
+        <F>1220</F>
+        <F>585644</F>
+        <F>Dry Pulses</F>
+        <F>58.5644</F>
+        <F>0.8434316702310115</F>
+      </Row>
+      <Row index="8">
+        <F>1310</F>
+        <F>58712</F>
+        <F>Potatoes</F>
+        <F>5.8712</F>
+        <F>0.08455573731243408</F>
+      </Row>
+      <Row index="9">
+        <F>1320</F>
+        <F>0</F>
+        <F>Sugar Beet</F>
+        <F>0</F>
+        <F>0</F>
+      </Row>
+      <Row index="10">
+        <F>1410</F>
+        <F>226491</F>
+        <F>Sunflower</F>
+        <F>22.6491</F>
+        <F>0.3261873807676541</F>
+      </Row>
+      <Row index="11">
+        <F>1420</F>
+        <F>377</F>
+        <F>Soybeans</F>
+        <F>0.0377</F>
+        <F>0.0005429471482284312</F>
+      </Row>
+      <Row index="12">
+        <F>1430</F>
+        <F>3950</F>
+        <F>Rapeseed</F>
+        <F>0.395</F>
+        <F>0.005688703542446427</F>
+      </Row>
+      <Row index="13">
+        <F>1440</F>
+        <F>3633</F>
+        <F>Flax cotton and hemp</F>
+        <F>0.3633</F>
+        <F>0.005232167080938701</F>
+      </Row>
+      <Row index="14">
+        <F>2100</F>
+        <F>319715</F>
+        <F>Grapes</F>
+        <F>31.9715</F>
+        <F>0.4604465450818379</F>
+      </Row>
+      <Row index="15">
+        <F>2200</F>
+        <F>20714285</F>
+        <F>Olives</F>
+        <F>2071.4285</F>
+        <F>29.83225986297339</F>
+      </Row>
+      <Row index="16">
+        <F>2310</F>
+        <F>2383495</F>
+        <F>Fruits</F>
+        <F>238.3495</F>
+        <F>3.432657329089455</F>
+      </Row>
+      <Row index="17">
+        <F>2320</F>
+        <F>2349911</F>
+        <F>Nuts</F>
+        <F>234.9911</F>
+        <F>3.384290387375652</F>
+      </Row>
+      <Row index="18">
+        <F>3100</F>
+        <F>1610801</F>
+        <F>Undecided arable crop</F>
+        <F>161.0801</F>
+        <F>2.319840343006645</F>
+      </Row>
+      <Row index="19">
+        <F>3200</F>
+        <F>87431</F>
+        <F>Undecided perrenial crop</F>
+        <F>8.7431</F>
+        <F>0.1259162125112996</F>
+      </Row>
+      <Row index="20">
+        <F>65535</F>
+        <F>30564144</F>
+        <F>outside area</F>
+        <F>3056.4144</F>
+        <F>0</F>
+      </Row>
+    </GDALRasterAttributeTable>
+    <Metadata>
+      <MDI key="STATISTICS_MAXIMUM">65535</MDI>
+      <MDI key="STATISTICS_MEAN">20714.7209559</MDI>
+      <MDI key="STATISTICS_MINIMUM">0</MDI>
+      <MDI key="STATISTICS_STDDEV">29750.36051456</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>
