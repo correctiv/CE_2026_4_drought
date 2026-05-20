@@ -26,7 +26,7 @@ if (!String.format) {
 }
 
 // 8 limits (start + 6 breaks + end)
-export const legend_color_limits_alert = [0, 5, 10, 20, 40, 60, 80, 120];
+export const legend_color_limits_alert = [0, 10, 20, 30, 40, 50, 60, 70];
 export const legend_colors_alert = [
   "#F3E3C1",
   "#E8C36F",
