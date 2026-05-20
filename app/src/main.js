@@ -11,7 +11,7 @@ import {
   select_feature,
   unselect_feature,
 } from "./events";
-import { createLegend, createLegendMax, createSearchBar, fill_chart_panel } from "./panels.js";
+import { createLegend, createSearchBar, fill_chart_panel } from "./panels.js";
 
 // we change the labels to be in the correct languages
 map.on("load", () => {
@@ -31,7 +31,7 @@ map.on("load", () => {
 
 map.once("load", async () => {
 
-  document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#333333; font-style: italic; text-decoration-color:#FF5064;" href="https://drought.emergency.copernicus.eu/">Copernicus - Combined Drought Indicator<a></i>`;
+  document.getElementById('source').innerHTML = `${translate('source')}: <a target="_blank" style="color:#333333; text-decoration-color:#FF5064;" href="https://drought.emergency.copernicus.eu/">Copernicus - Combined Drought Indicator<a>`;
   var coll = document.getElementById("detail_button");
   var collContent = document.querySelector(".collapsible-content");
   coll.innerHTML = translate('details_title');
@@ -60,26 +60,15 @@ map.once("load", async () => {
 
   const medianColorExpr = [
     "case",
-    ["<", ["get", "median_drought_days"], 30], "#FFFDF9",
-    ["<", ["get", "median_drought_days"], 60], "#F9F3E8",
-    ["<", ["get", "median_drought_days"], 90], "#E7D6B1",
-    ["<", ["get", "median_drought_days"], 120], "#DCC187",
-    ["<", ["get", "median_drought_days"], 150], "#D0AC5E",
-    ["<", ["get", "median_drought_days"], 180], "#C59734",
-    ["<", ["get", "median_drought_days"], 210], "#B2892F",
-    ["<", ["get", "median_drought_days"], 240], "#9E7A2A",
-    ["<", ["get", "median_drought_days"], 270], "#8B6C25",
-    "#775D20",
+    ["<", ["get", "median_drought_days"], 40], "#F3E3C1",
+    ["<", ["get", "median_drought_days"], 80], "#E8C36F",
+    ["<", ["get", "median_drought_days"], 120], "#C79933",
+    ["<", ["get", "median_drought_days"], 160], "#976E12",
+    ["<", ["get", "median_drought_days"], 200], "#7B5809",
+    ["<", ["get", "median_drought_days"], 240], "#5D4104",
+    "#3A2802",
   ];
 
-  const maxColorExpr = [
-    "case",
-    ["<", ["get", "max_drought_days"], 72], "#FFFDF9",
-    ["<", ["get", "max_drought_days"], 144], "#D6B562",
-    ["<", ["get", "max_drought_days"], 216], "#C59734",
-    ["<", ["get", "max_drought_days"], 288], "#917126",
-    "#775D20",
-  ];
 
   map.addLayer(
     {
@@ -89,7 +78,7 @@ map.once("load", async () => {
       "source-layer": "drought_days_lau",
       paint: {
         "fill-color": medianColorExpr,
-        "fill-opacity": 0.6,
+        "fill-opacity": 0.7,
         "fill-outline-color": [
           "interpolate", ["linear"], ["zoom"],
           0, "#00000000",
@@ -139,32 +128,6 @@ map.once("load", async () => {
     add_hover_events();
   });
 
-  let show_max_drought_days = false;
-
-  const btnMedian = document.getElementById("button_median_drought");
-  const btnMax = document.getElementById("button_max_drought");
-
-  btnMax.onclick = () => {
-    if (!show_max_drought_days) {
-      show_max_drought_days = true;
-      map.setPaintProperty("lau_vector", "fill-color", maxColorExpr);
-      document.getElementById("map_legend").innerHTML = "";
-      createLegendMax();
-      btnMax.classList.add("active");
-      btnMedian.classList.remove("active");
-    }
-  };
-
-  btnMedian.onclick = () => {
-    if (show_max_drought_days) {
-      show_max_drought_days = false;
-      map.setPaintProperty("lau_vector", "fill-color", medianColorExpr);
-      document.getElementById("map_legend").innerHTML = "";
-      createLegend();
-      btnMedian.classList.add("active");
-      btnMax.classList.remove("active");
-    }
-  };
 
   const positionChartPanelMobile = () => {
     if (window.innerWidth <= 650) {

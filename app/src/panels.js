@@ -25,37 +25,25 @@ if (!String.format) {
   };
 }
 
-// 11 limits (start + 9 breaks + end)
-const legend_color_limits = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
+// 8 limits (start + 6 breaks + end)
+const legend_color_limits = [0, 40, 80, 120, 160, 200, 240, 280];
 const legend_colors = [
-    "#FFFDF9",
-    "#F9F3E8",
-    "#E7D6B1",
-    "#DCC187",
-    "#D0AC5E",
-    "#C59734",
-    "#B2892F",
-    "#9E7A2A",
-    "#8B6C25",
-    "#775D20",
+    "#F3E3C1",
+    "#E8C36F",
+    "#C79933",
+    "#976E12",
+    "#7B5809",
+    "#5D4104",
+    "#3A2802",
 ];
 
 // 6 limits (start + 4 breaks + end)
-const legend_color_limits_max = [0, 72, 144, 216, 288, 360];
-const legend_colors_max = [
-    "#FFFDF9",
-    "#D6B562",
-    "#C59734",
-    "#917126",
-    "#775D20",
-];
-
 //  LEGEND
 export const createLegend = () => {
   var w = document.getElementById("map-legend-wrapper").offsetWidth;
 
   const legend_height = 12;
-  const legend_width = (w - 20) / 10;
+  const legend_width = (w - 20) / 7;
 
   const legend_svg = d3
     .select("#map_legend")
@@ -91,52 +79,6 @@ export const createLegend = () => {
     .attr("class", "legend-number")
     .attr("width", legend_width)
     .attr("text-anchor", (_, i) => i === 0 ? "start" : i === legend_color_limits.length - 1 ? "end" : "middle")
-    .attr("x", (_, i) => i * legend_width)
-    .attr("y", (_, i) => (i % 2 ? 15 : 48))
-    .text((d) => `${d}`);
-};
-
-export const createLegendMax = () => {
-  var w = document.getElementById("map-legend-wrapper").offsetWidth;
-
-  const legend_height = 12;
-  const n = legend_colors_max.length;
-  const legend_width = (w - 20) / n;
-
-  const legend_svg = d3
-    .select("#map_legend")
-    .append("svg")
-    .attr("viewBox", `0 0 ${w - 20} 50`);
-
-  legend_svg
-    .selectAll("rect")
-    .data(legend_colors_max)
-    .enter()
-    .append("rect")
-    .attr("width", legend_width)
-    .attr("height", legend_height)
-    .attr("x", (_, i) => i * legend_width)
-    .attr("y", 20)
-    .attr("fill", (_, i) => legend_colors_max[i]);
-
-  legend_svg
-    .append("rect")
-    .attr("x", 0)
-    .attr("y", 20)
-    .attr("width", legend_width * n)
-    .attr("height", legend_height)
-    .attr("fill", "none")
-    .attr("stroke", "#333333")
-    .attr("stroke-width", 0.5);
-
-  legend_svg
-    .selectAll("text")
-    .data(legend_color_limits_max)
-    .enter()
-    .append("text")
-    .attr("class", "legend-number")
-    .attr("width", legend_width)
-    .attr("text-anchor", (_, i) => i === 0 ? "start" : i === legend_color_limits_max.length - 1 ? "end" : "middle")
     .attr("x", (_, i) => i * legend_width)
     .attr("y", (_, i) => (i % 2 ? 15 : 48))
     .text((d) => `${d}`);
