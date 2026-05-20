@@ -31,7 +31,7 @@ map.on("load", () => {
 
 map.once("load", async () => {
 
-  document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#333333; font-style: italic; text-decoration-color:#FF5064;" href="https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf">Copernicus - Combined Drought Indicator<a></i>`;
+  document.getElementById('source').innerHTML = `<i>${translate('source')}: <a target="_blank" style="color:#333333; font-style: italic; text-decoration-color:#FF5064;" href="https://drought.emergency.copernicus.eu/">Copernicus - Combined Drought Indicator<a></i>`;
   var coll = document.getElementById("detail_button");
   var collContent = document.querySelector(".collapsible-content");
   coll.innerHTML = translate('details_title');
