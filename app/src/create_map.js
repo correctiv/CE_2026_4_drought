@@ -7,6 +7,7 @@ import "@maptiler/geocoding-control/style.css";
 
 // will turn to true when a region is clicked, and to false if the detail pannel is closed.
 export const mapState = {
+  show_drought_alert_days: true,
   region_was_clicked: false,
   hoveredId: null,
   color_field: "evol_perc_2011",

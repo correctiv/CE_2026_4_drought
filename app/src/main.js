@@ -11,7 +11,19 @@ import {
   select_feature,
   unselect_feature,
 } from "./events";
-import { createLegend, createSearchBar, fill_chart_panel } from "./panels.js";
+import {
+  createLegendWarning,
+  createLegendAlert,
+  createSearchBar,
+  fill_chart_panel,
+  close_chart_panel,
+  legend_color_limits_alert,
+  legend_colors_alert,
+  legend_color_limits_warning,
+  legend_colors_warning
+} from "./panels.js";
+
+
 
 // we change the labels to be in the correct languages
 map.on("load", () => {
@@ -58,16 +70,28 @@ map.once("load", async () => {
       apiKey,
   });
 
-  const medianColorExpr = [
-    "case",
-    ["<", ["get", "median_drought_days"], 40], "#F3E3C1",
-    ["<", ["get", "median_drought_days"], 80], "#E8C36F",
-    ["<", ["get", "median_drought_days"], 120], "#C79933",
-    ["<", ["get", "median_drought_days"], 160], "#976E12",
-    ["<", ["get", "median_drought_days"], 200], "#7B5809",
-    ["<", ["get", "median_drought_days"], 240], "#5D4104",
-    "#3A2802",
-  ];
+  
+  // NOTE: To make it easier to change the scales later, i have automated the generation of these dictionaries
+  // please adapt the limits in the corresponding variables in panels.js from now on.
+  const warningColorExpr = ["case"];
+  for (let i = 0; i < legend_colors_warning.length - 1; i++) {
+    warningColorExpr.push(
+      ["<", ["get", "median_drought_days"], legend_color_limits_warning[i + 1]],
+      legend_colors_warning[i]
+    );
+  }
+  warningColorExpr.push("#3A2802")
+  console.log(warningColorExpr)
+
+  const alertColorExpr = ["case"];
+  for (let i = 0; i < legend_colors_alert.length - 1; i++) {
+    alertColorExpr.push(
+      ["<", ["get", "median_alert_days"], legend_color_limits_alert[i + 1]],
+      legend_colors_alert[i]
+    );
+  }
+  alertColorExpr.push("#3A2802")
+  console.log(alertColorExpr)
 
 
   map.addLayer(
@@ -77,7 +101,7 @@ map.once("load", async () => {
       source: "lau_drought_src",
       "source-layer": "drought_days_lau",
       paint: {
-        "fill-color": medianColorExpr,
+        "fill-color": alertColorExpr,
         "fill-opacity": 0.7,
         "fill-outline-color": [
           "interpolate", ["linear"], ["zoom"],
@@ -128,6 +152,32 @@ map.once("load", async () => {
     add_hover_events();
   });
 
+  const btnWarning = document.getElementById("button_warning_days");
+  const btnAlert = document.getElementById("button_alert_days");
+
+  btnAlert.onclick = () => {
+    if (!mapState.show_drought_alert_days) {
+      mapState.show_drought_alert_days = true;
+      map.setPaintProperty("lau_vector", "fill-color", alertColorExpr);
+      document.getElementById("map_legend").innerHTML = "";
+      createLegendAlert();
+      btnAlert.classList.add("active");
+      btnWarning.classList.remove("active");
+      close_chart_panel();
+    }
+  };
+
+  btnWarning.onclick = () => {
+    if (mapState.show_drought_alert_days) {
+      mapState.show_drought_alert_days = false;
+      map.setPaintProperty("lau_vector", "fill-color", warningColorExpr);
+      document.getElementById("map_legend").innerHTML = "";
+      createLegendWarning();
+      btnWarning.classList.add("active");
+      btnAlert.classList.remove("active");
+      close_chart_panel();
+    }
+  };
 
   const positionChartPanelMobile = () => {
     if (window.innerWidth <= 650) {
@@ -141,7 +191,7 @@ map.once("load", async () => {
   window.addEventListener("resize", positionChartPanelMobile);
 
   // Add legend
-  createLegend();
+  createLegendAlert();
 
   // Add search bar
   createSearchBar();

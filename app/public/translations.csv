@@ -3,11 +3,13 @@ search_placeholder,Search,Suche
 no_data,No data,Keine Daten
 month,month,Monat
 days,days,Tage
+drought_warning, a drought warning, eine Dürrewarnung
+drought_alert, a drought alert, ein Dürrealarm
 details_title,Brief Methodology,Kurze Methodologie
 details_pop,Population: {0},Bevölkerung: {0}
 details_cropland,Cropland: {0} per cent, Ackerfläche: {0} Prozent
-details_median,"<b>On average</b>, this region experiences <b>{0} days of drought per year</b>.", "Hier herrschen <b>im Schnitt {0} Tage Dürre pro Jahr</b>."
-details_max,"The year <b>{1}</b> had the most, with <b>{0} days of drought</b>.", "Das Jahr <b>{1}</b> hatte mit <b>{0} Dürretagen</b> die meisten."
+details_median,"<b>On average</b>, this region receives {1} for <b>{0} days per year</b>.", "<b>Im Schnitt</b>  wird für diese Region für <b>{0} Tage pro Jahr {1}</b> ausgerufen."
+details_max,"The year <b>{1}</b> was the most severe, with <b>{0} days of drought</b>.", "Das Jahr <b>{1}</b> hatte mit <b>{0} Dürretagen</b> die meisten."
 details_contents,"<p>The atlas shows the median and maximum values of all drought days between 2012 and 2026 for the European Economic Area, the United Kingdom, North Macedonia, Albania, and Serbia.</p><p>To do this, CORRECTIV.Europe analysed data from Copernicus. The EU Earth observation programme calculates local drought values every ten days. These are based on measurements of rainfall, soil moisture and vegetation at a spatial resolution of approximately five kilometres. The data shown is limited both spatially and temporally.</p>
 
 <p>Limitation: Copernicus measures anomalies and compares them with data from the previous 30 years. Regions that had already been affected by drought for decades do not necessarily stand out more than others.</p>
