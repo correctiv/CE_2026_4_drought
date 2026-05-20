@@ -8,7 +8,15 @@ details_pop,Population: {0},Bevölkerung: {0}
 details_cropland,Cropland: {0} per cent, Ackerfläche: {0} Prozent
 details_median,"<b>On average</b>, this region experiences <b>{0} days of drought per year</b>.", "Hier herrschen <b>im Schnitt {0} Tage Dürre pro Jahr</b>."
 details_max,"The year <b>{1}</b> had the most, with <b>{0} days of drought</b>.", "Das Jahr <b>{1}</b> hatte mit <b>{0} Dürretagen</b> die meisten."
-details_contents,"<p>We present the average number of drought days from 2012 to 2026 for the European Economic Area and the United Kingdom.</p>
-<p>To do this, we analysed Copernicus data. The EU Earth observation programme calculates local drought indices every ten days. These are derived from data on precipitation, soil moisture and plant growth. The information presented is limited in terms of both spatial coverage and time period.</p>","<p>Wir zeigen den Mittelwert aller Dürretage zwischen 2012 und 2026 für den Europäischen Wirtschaftsraum und Großbritannien.</p> 
-<p>Dafür haben wir Daten von Copernicus analysiert. Das EU-Erdbeobachtungsprogramm berechnet alle zehn Tage lokale Dürrewerte. Diese ergeben sich aus Daten zu Niederschlag, Bodenfeuchte und Pflanzenwachstum. Die Angaben sind räumlich und zeitlich in der Darstellung begrenzt.</p>"
+details_contents,"<p>The atlas shows the median and maximum values of all drought days between 2012 and 2026 for the European Economic Area, the United Kingdom, North Macedonia, Albania, and Serbia.</p><p>To do this, CORRECTIV.Europe analysed data from Copernicus. The EU Earth observation programme calculates local drought values every ten days. These are based on measurements of rainfall, soil moisture and vegetation at a spatial resolution of approximately five kilometres. The data shown is limited both spatially and temporally.</p>
+
+<p>Limitation: Copernicus measures anomalies and compares them with data from the previous 30 years. Regions that had already been affected by drought for decades do not necessarily stand out more than others.</p>
+
+<p>Further information on the raw data methodology can be found <a href= https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf>here</a>.</p>","<p>Der Atlas zeigt den Median- beziehungsweise den Maximalwert aller Dürretage von 2012 bis 2026 für den europäischen Wirtschaftsraum sowie Großbritannien, Nordmazedonien, Albanien und Serbien.</p>
+
+<p>Dafür hat CORRECTIV.Europe Daten von Copernicus analysiert. Das EU-Erdbeobachtungsprogramm berechnet alle zehn Tage lokale Dürrewerte. Diese ergeben sich aus Messungen zu Niederschlag, Bodenfeuchte und Vegetation in einer räumlichen Auflösung von etwa fünf Kilometern. Die Angaben sind räumlich und zeitlich in der Darstellung begrenzt.</p>
+
+<p>Limitation: Copernicus misst Anomalien und setzt diese in Relation zu den Messungen der vorhergehenden 30 Jahre. Das führt dazu, dass Regionen, die schon über Jahrzehnte vorher mit Dürre zu kämpfen hatten, nicht unbedingt stärker als andere auffallen.</p>
+
+<p>Weitere Informationen zur Methodik der Rohdaten finden Sie <a href= https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf>hier</a>.</p>"
 source,Source,Quelle
