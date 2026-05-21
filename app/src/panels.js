@@ -26,7 +26,7 @@ if (!String.format) {
 }
 
 // 8 limits (start + 6 breaks + end)
-export const legend_color_limits_alert = [0, 10, 20, 30, 40, 50, 60, 70];
+export const legend_color_limits_alert = [0, 5, 10, 20, 30, 40, 50, 365];
 export const legend_colors_alert = [
   "#F3E3C1",
   "#E8C36F",
@@ -37,7 +37,7 @@ export const legend_colors_alert = [
   "#3A2802",
 ];
 
-export const legend_color_limits_warning = [0, 40, 80, 120, 160, 200, 240, 280];
+export const legend_color_limits_warning = [0, 40, 80, 120, 160, 200, 240, 365];
 export const legend_colors_warning = [
   "#F3E3C1",
   "#E8C36F",
@@ -218,8 +218,8 @@ function generate_popup_html(feature) {
     </div>
     <span class="tight-break"></span>
     ${mapState.show_drought_alert_days ? 
-      String.format(translate("details_max"), num_format(Math.round(feature.properties.max_alert_days)), feature.properties.max_alert_days_year):
-      String.format(translate("details_max"), num_format(Math.round(feature.properties.max_drought_days)), feature.properties.max_drought_days_year)}<br>
+      String.format(translate("details_max"), num_format(Math.round(feature.properties.max_alert_days)), feature.properties.max_alert_days_year, translate("drought_alert_2")):
+      String.format(translate("details_max"), num_format(Math.round(feature.properties.max_drought_days)), feature.properties.max_drought_days_year, translate("drought_warning_2"))}<br>
     <div class="drought-bar-track" style="margin-bottom:1px">
       <div class="drought-bar-fill" style="width:${pctMax}%"></div>
     </div>

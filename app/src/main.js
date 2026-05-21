@@ -43,7 +43,7 @@ map.on("load", () => {
 
 map.once("load", async () => {
 
-  document.getElementById('source').innerHTML = `${translate('source')}: <a target="_blank" style="color:#333333; text-decoration-color:#FF5064;" href="https://drought.emergency.copernicus.eu/">Copernicus - Combined Drought Indicator<a>`;
+  document.getElementById('source').innerHTML = `${translate('source')}: <a target="_blank" style="color:#333333; text-decoration-color:#FF5064;" href="https://correctiv.org/europe/">CORRECTIV</a>, <a target="_blank" style="color:#333333; text-decoration-color:#FF5064;" href="https://drought.emergency.copernicus.eu/">Copernicus</a>`;
   var coll = document.getElementById("detail_button");
   var collContent = document.querySelector(".collapsible-content");
   coll.innerHTML = translate('details_title');
@@ -154,6 +154,8 @@ map.once("load", async () => {
 
   const btnWarning = document.getElementById("button_warning_days");
   const btnAlert = document.getElementById("button_alert_days");
+  btnWarning.innerHTML = translate("drought_warning_button");
+  btnAlert.innerHTML = translate("drought_alert_button");
 
   btnAlert.onclick = () => {
     if (!mapState.show_drought_alert_days) {
