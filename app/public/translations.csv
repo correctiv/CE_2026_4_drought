@@ -9,9 +9,10 @@ drought_warning,drought-warning-days,eine Dürrewarnung
 drought_alert,drought-alert-days,ein Dürrealarm
 drought_warning_2,drought-warning-days,Dürrewarnung
 drought_alert_2,drought-alert-days,Dürrealarm
-details_title,Brief Methodology,Kurze Methodologie
+details_title,Brief Methodology here,Kurze Methodologie hier
 details_pop,Population: {0},Bevölkerung: {0}
-details_cropland,Cropland: {0} per cent,Ackerfläche: {0} Prozent
+details_cropland,Cropland: {0} {1},Ackerfläche: {0} {1}
+percent,per cent, Prozent
 details_median,"On average, this region experienced <b>{0} {1}</b> per year</b>.",Im Schnitt bestand für diese Region an <b>{0} Tagen im Jahr {1}</b>.
 details_max,"The year <b>{1}</b> was the most severe, with <b>{0} {2}</b>.","Das Jahr <b>{1}</b> war das schwerwiegendste mit <b>{0} Tagen {2}</b>."
 details_contents,"<p>This atlas shows the number of drought-days between 2012 and 2026 for: EEA, the UK, North Macedonia, Albania, Serbia.</p>
@@ -22,3 +23,4 @@ details_contents,"<p>This atlas shows the number of drought-days between 2012 an
 <p>Wenn die Messwerte für Niederschlag und Bodenfeuchte ungewöhnlich niedrig sind, gilt das als Warnzustand. Der Atlas bezeichnet dies als „Warnung: Moderate Dürre“. Wenn Satellitenbilder zusätzlich zeigen, dass Pflanzen unter Dürrestress leiden, gilt das als Alarmzustand. Der Atlas bezeichnet dies als „Alarm: Akute Dürre“.</p>
 <p>Limitation: Beide Indikatoren basieren auf Abweichungen von langfristigen Durchschnittswerten. Seit Jahrzehnten trockene Regionen stechen deshalb in den Daten nicht zwingend stärker hervor. (<a href= https://drought.emergency.copernicus.eu/data/factsheets/factsheet_combinedDroughtIndicator_v4.pdf>Vollständige Methodik der Copernicus-Rohdaten</a>)</p>"
 source,Source,Quelle
+nodata,no data,Keine Daten

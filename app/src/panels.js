@@ -185,10 +185,19 @@ export function close_chart_panel() {
 }
 
 function num_format(num) {
+
   if (SETTINGS.language == "de") {
-    return num.toLocaleString("de-DE")
+    if (num == null){
+      return "--"
+    } else {
+      return num.toLocaleString("de-DE")
+    }
   } else {
+    if (num == null){
+      return "--"
+    } else {
     return num.toLocaleString("en-US")
+    }
   }
 }
 
@@ -205,7 +214,9 @@ function generate_popup_html(feature) {
   return `<div id='data-popup'>
     <a id="close-button">×</a>
     <H2>${feature.properties.nuts_name}</H2>
-    ${String.format(translate("details_cropland"), num_format(feature.properties.cropland_area_percent))}<br>
+    ${(feature.properties.cropland_area_percent == null) ?
+      String.format(translate("details_cropland"), translate("nodata"), ""):
+      String.format(translate("details_cropland"), num_format(feature.properties.cropland_area_percent), translate("percent"))}<br>
     ${String.format(translate("details_pop"), num_format(feature.properties.population))}<br>  <span class="tight-break"></span>
     ${mapState.show_drought_alert_days ? 
       String.format(translate("details_median"), num_format(Math.round(feature.properties.median_alert_days)), translate("drought_alert")) : 
