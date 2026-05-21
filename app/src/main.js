@@ -81,7 +81,6 @@ map.once("load", async () => {
     );
   }
   warningColorExpr.push("#3A2802")
-  console.log(warningColorExpr)
 
   const alertColorExpr = ["case"];
   for (let i = 0; i < legend_colors_alert.length - 1; i++) {
@@ -91,7 +90,6 @@ map.once("load", async () => {
     );
   }
   alertColorExpr.push("#3A2802")
-  console.log(alertColorExpr)
 
 
   map.addLayer(
